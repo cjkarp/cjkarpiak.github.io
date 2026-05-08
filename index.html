@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJ Karpiak — Creative Producer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #f0e8dc;
+    --bg2:       #e4d9cc;
+    --bg-card:   #ede4d8;
+    --dark:      #2c1f14;
+    --maroon:    #7a3228;
+    --blue:      #5b82a0;
+    --blue-light:#8fb4cc;
+    --sand:      #c0956a;
+    --sand-dim:  #d4b090;
+    --gray:      #8a7a6e;
+    --gray-light:#b0a090;
+    --white:     #faf6f0;
+    --serif:     'Outfit', sans-serif;
+    --mono:      'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--dark);
+    font-family: var(--serif);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* HEADER */
+  header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6rem 4rem 4.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 10%, rgba(91,130,160,0.20) 0%, transparent 55%),
+      radial-gradient(ellipse at 15% 90%, rgba(122,50,40,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(192,149,106,0.10) 0%, transparent 70%);
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sand-dim), transparent);
+  }
+
+  .header-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  h1 {
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 200;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--dark);
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.4s forwards;
+  }
+
+  h1 span { color: var(--maroon); }
+
+  .header-meta {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.7s forwards;
+  }
+
+  .header-meta span {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  .header-meta a {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.15em;
+    color: var(--maroon);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--sand-dim);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .header-meta a:hover { color: var(--blue); border-color: var(--blue-light); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem; right: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+  }
+
+  .scroll-hint span {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    color: var(--gray-light);
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-line {
+    width: 1px; height: 3rem;
+    background: linear-gradient(to bottom, var(--sand), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 6rem 4rem;
+    max-width: 860px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .about.visible { opacity: 1; transform: none; }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.25em;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-tag::after {
+    content: '';
+    width: 48px; height: 1px;
+    background: var(--sand-dim);
+  }
+
+  .about-titles {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+    margin-bottom: 1.4rem;
+  }
+
+  .about-closing {
+    font-family: var(--mono);
+    font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+    font-weight: 300;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+  }
+
+  /* WORK */
+  .work { padding: 1rem 0 7rem; }
+
+  .work-header { padding: 0 4rem 3.5rem; }
+
+  .work-header h2 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 200;
+    color: var(--dark);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .work-header h2 span { color: var(--maroon); }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+    background: var(--bg2);
+  }
+
+  .card {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: var(--bg-card);
+  }
+
+  /* Featured full-width slots */
+  .card.featured { grid-column: span 2; aspect-ratio: 21/9; }
+
+  /* Placeholder shimmer while thumbnail loads */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      var(--bg-card) 0%,
+      #ddd4c4 40%,
+      var(--bg-card) 60%,
+      #d4c8b8 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 2s ease infinite;
+    z-index: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .card.loaded::before { opacity: 0; }
+
+  .card-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease;
+    filter: brightness(0.9) saturate(0.85);
+    z-index: 1;
+  }
+
+  .card.loaded .card-thumb { opacity: 1; }
+
+  .card:hover .card-thumb {
+    transform: scale(1.04);
+    filter: brightness(0.55) saturate(0.7);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.8rem;
+    background: linear-gradient(to top, rgba(44,31,20,0.85) 0%, transparent 55%);
+    z-index: 2;
+  }
+
+  .card-client {
+    font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  .card-type {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: var(--blue-light);
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  .card-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) scale(0.85);
+    width: 54px; height: 54px;
+    border: 1px solid rgba(143,180,204,0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 3;
+  }
+
+  .card-play svg { width: 15px; height: 15px; fill: var(--blue-light); margin-left: 3px; }
+  .card:hover .card-play { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(44,31,20,0.96);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .lightbox.open { opacity: 1; pointer-events: all; }
+
+  .lightbox-inner {
+    width: 90vw;
+    max-width: 1100px;
+    transform: scale(0.95);
+    transition: transform 0.4s ease;
+  }
+
+  .lightbox.open .lightbox-inner { transform: scale(1); }
+
+  .lightbox-video { position: relative; padding-bottom: 56.25%; height: 0; }
+  .lightbox-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+  .lightbox-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 0 0;
+  }
+
+  .lightbox-title { font-size: 1.3rem; font-weight: 300; color: var(--white); }
+
+  .lightbox-close {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.2em;
+    color: var(--gray-light);
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .lightbox-close:hover { color: var(--blue-light); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--bg2);
+    padding: 3.5rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-name { font-size: 1.1rem; font-weight: 400; color: var(--maroon); letter-spacing: 0.02em; }
+
+  .footer-links { display: flex; gap: 2rem; }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--blue); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @media (max-width: 768px) {
+    header, .about { padding: 4rem 1.5rem 3rem; }
+    .work-header { padding: 0 1.5rem 2rem; }
+    footer { padding: 2.5rem 1.5rem; flex-direction: column; gap: 1.5rem; }
+    .grid { grid-template-columns: 1fr; }
+    .card.featured { grid-column: span 1; aspect-ratio: 16/9; }
+    .scroll-hint { display: none; }
+    .header-meta { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-bg"></div>
+  <div class="header-label">Los Angeles</div>
+  <h1>CJ<br><span>Karpiak</span></h1>
+  <div class="header-meta">
+    <span>Creative Producer</span>
+    <span>Director</span>
+    <span>Writer</span>
+    <a href="mailto:cjkarpiak@gmail.com">cjkarpiak@gmail.com</a>
+    <a href="https://vimeo.com/craigjamesjr" target="_blank">Vimeo ↗</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<section class="about">
+  <div class="section-tag">About</div>
+  <p class="about-titles">Director. Writer. Award-Winning Producer.</p>
+  <p class="about-closing">Broadcast &nbsp;·&nbsp; Digital &nbsp;·&nbsp; Social &nbsp;·&nbsp; OTT &nbsp;&nbsp;—&nbsp;&nbsp; Every frame costs something. Every story should be worth it.</p>
+</section>
+
+<section class="work">
+  <div class="work-header">
+    <h2>Selected<br><span>Work</span></h2>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</section>
+
+<footer>
+  <div class="footer-name">CJ Karpiak</div>
+  <div class="footer-links">
+    <a href="mailto:cjkarpiak@gmail.com">Email</a>
+    <a href="https://vimeo.com/craigjamesjr" target="_blank">Vimeo</a>
+    <a href="https://www.linkedin.com/in/cj-karpiak/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <div class="lightbox-video">
+      <iframe id="lightbox-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+    <div class="lightbox-meta">
+      <div class="lightbox-title" id="lightbox-title"></div>
+      <button class="lightbox-close" onclick="closeLightboxBtn()">Close ✕</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Video data — position 0 and 5 are featured (full-width)
+  const videos = [
+    { id: '1183119023', client: '18Birdies',        type: 'Brand Campaign · Director / Writer / Producer', featured: true },
+    { id: '1183124212', client: 'Denticon',          type: '"Secret Agents" · Mockumentary Campaign' },
+    { id: '1183120845', client: 'Denticon',          type: '"Support Group" · Mockumentary Campaign' },
+    { id: '1095773033', client: 'Kapitus',           type: 'Broadcast TV · :30 National Spot' },
+    { id: '1114376612', client: 'Yuengling',         type: 'Documentary Style · :60' },
+    { id: '903166986',  client: 'Nreal',             type: 'Consumer Tech · Product Launch', featured: true },
+    { id: '903171451',  client: 'Daymond John',      type: 'ClickFunnels · :60 Direct Response' },
+    { id: '1156645053', client: 'Izod',              type: 'Legacy Brand Campaign' },
+    { id: '1190556053', client: 'Melia Hotels',      type: 'Hospitality · Brand Film' },
+    { id: '1183175882', client: 'Florida Crystals',  type: 'CPG · Brand Campaign' },
+    { id: '1095772397', client: 'Stroll Magazine',   type: 'N2 Publishing · Brand Story' },
+    { id: '1163459941', client: 'Amplify Life',      type: 'Insurance · Brand Campaign' },
+  ];
+
+  const grid = document.getElementById('grid');
+
+  // Build cards immediately with shimmer placeholders
+  videos.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'card' + (v.featured ? ' featured' : '');
+    card.innerHTML = `
+      <img class="card-thumb" alt="${v.client}" loading="lazy">
+      <div class="card-overlay">
+        <div class="card-client">${v.client}</div>
+        <div class="card-type">${v.type}</div>
+      </div>
+      <div class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+    `;
+    card.addEventListener('click', () => openLightbox(
+      `https://player.vimeo.com/video/${v.id}?autoplay=1`, v.client
+    ));
+    grid.appendChild(card);
+
+    // Fetch thumbnail via Vimeo oEmbed (no auth required)
+    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${v.id}&width=1280`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.thumbnail_url) {
+          const img = card.querySelector('.card-thumb');
+          // Request larger size by replacing _640 with _1280
+          const large = data.thumbnail_url.replace(/_\d+\./, '_1280.');
+          img.src = large;
+          img.onload = () => card.classList.add('loaded');
+          img.onerror = () => { img.src = data.thumbnail_url; img.onload = () => card.classList.add('loaded'); };
+        }
+      })
+      .catch(() => {});
+  });
+
+  // Lightbox
+  function openLightbox(src, title) {
+    document.getElementById('lightbox-iframe').src = src;
+    document.getElementById('lightbox-title').textContent = title;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightboxBtn();
+  }
+
+  function closeLightboxBtn() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-iframe').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightboxBtn(); });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.about').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
