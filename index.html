@@ -1,576 +1,1284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CJ Karpiak — Creative Producer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CJ Karpiak — Director · Creative Producer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --bg:        #f0e8dc;
-    --bg2:       #e4d9cc;
-    --bg-card:   #ede4d8;
-    --dark:      #2c1f14;
-    --maroon:    #7a3228;
-    --blue:      #5b82a0;
-    --blue-light:#8fb4cc;
-    --sand:      #c0956a;
-    --sand-dim:  #d4b090;
-    --gray:      #8a7a6e;
-    --gray-light:#b0a090;
-    --white:     #faf6f0;
-    --serif:     'Outfit', sans-serif;
-    --mono:      'DM Mono', monospace;
-  }
+    :root {
+      --black: #060606;
+      --off-white: #f5f3f0;
+      --mid: #747474;
+      --light: #e0ddd8;
+      --accent: #c8ae82;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+      --nav-h: 68px;
+    }
 
-  html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--bg);
-    color: var(--dark);
-    font-family: var(--serif);
-    font-weight: 300;
-    overflow-x: hidden;
-  }
+    body {
+      font-family: var(--sans);
+      background: var(--black);
+      color: var(--off-white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-  }
+    .page { display: none; }
+    .page.active { display: block; animation: fadeUp 0.38s ease; }
 
-  /* HEADER */
-  header {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 6rem 4rem 4.5rem;
-    position: relative;
-    overflow: hidden;
-  }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-  .header-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 80% 10%, rgba(91,130,160,0.20) 0%, transparent 55%),
-      radial-gradient(ellipse at 15% 90%, rgba(122,50,40,0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(192,149,106,0.10) 0%, transparent 70%);
-  }
+    /* ══════════════════════════════════════
+       NAV
+    ══════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 300;
+      height: var(--nav-h);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 48px;
+      transition: background 0.4s, border-color 0.4s;
+    }
 
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--sand-dim), transparent);
-  }
+    nav.solid {
+      background: rgba(6,6,6,0.94);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+    }
 
-  .header-label {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.22em;
-    color: var(--blue);
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--off-white);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      user-select: none;
+    }
 
-  h1 {
-    font-size: clamp(4rem, 10vw, 9rem);
-    font-weight: 200;
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    color: var(--dark);
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.4s forwards;
-  }
+    .nav-links {
+      display: flex;
+      gap: 34px;
+      list-style: none;
+      align-items: center;
+    }
 
-  h1 span { color: var(--maroon); }
+    .nav-links button {
+      background: none;
+      border: none;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
 
-  .header-meta {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3rem;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.7s forwards;
-  }
+    .nav-links button:hover,
+    .nav-links button.active { color: var(--off-white); }
 
-  .header-meta span {
-    font-family: var(--mono);
-    font-size: 0.64rem;
-    letter-spacing: 0.15em;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
+    .nav-cta {
+      border: 1px solid rgba(255,255,255,0.16) !important;
+      padding: 9px 20px !important;
+      color: rgba(255,255,255,0.65) !important;
+      transition: border-color 0.2s, color 0.2s !important;
+    }
 
-  .header-meta a {
-    font-family: var(--mono);
-    font-size: 0.64rem;
-    letter-spacing: 0.15em;
-    color: var(--maroon);
-    text-transform: uppercase;
-    text-decoration: none;
-    border-bottom: 1px solid var(--sand-dim);
-    padding-bottom: 1px;
-    transition: color 0.2s, border-color 0.2s;
-  }
+    .nav-cta:hover {
+      border-color: var(--accent) !important;
+      color: var(--off-white) !important;
+    }
 
-  .header-meta a:hover { color: var(--blue); border-color: var(--blue-light); }
+    /* ══════════════════════════════════════
+       HERO — SPLIT / CINEMATIC
+    ══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 2rem; right: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.2s forwards;
-  }
+    /* LEFT — text panel */
+    .hero-left {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 56px 72px 48px;
+      background: var(--black);
+    }
 
-  .scroll-hint span {
-    font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    color: var(--gray-light);
-    writing-mode: vertical-rl;
-  }
+    /* Thin vertical rule between panels */
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.12), transparent);
+    }
 
-  .scroll-line {
-    width: 1px; height: 3rem;
-    background: linear-gradient(to bottom, var(--sand), transparent);
-    animation: scrollPulse 2s ease infinite;
-  }
+    .hero-overline {
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
 
-  /* ABOUT */
-  .about {
-    padding: 6rem 4rem;
-    max-width: 860px;
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3.4rem, 5.5vw, 5.8rem);
+      font-weight: 400;
+      line-height: 0.96;
+      color: var(--off-white);
+      margin-bottom: 32px;
+    }
 
-  .about.visible { opacity: 1; transform: none; }
+    .hero-name .line2 {
+      font-style: italic;
+      color: rgba(255,255,255,0.32);
+    }
 
-  .section-tag {
-    font-family: var(--mono);
-    font-size: 0.63rem;
-    letter-spacing: 0.25em;
-    color: var(--blue);
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
+    .hero-roles {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-left: 1px solid rgba(255,255,255,0.1);
+      padding-left: 18px;
+      margin-bottom: 52px;
+    }
 
-  .section-tag::after {
-    content: '';
-    width: 48px; height: 1px;
-    background: var(--sand-dim);
-  }
+    .hero-role {
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.45);
+      line-height: 2.1;
+    }
 
-  .about-titles {
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    font-weight: 300;
-    color: var(--dark);
-    letter-spacing: -0.01em;
-    margin-bottom: 1.4rem;
-  }
+    .hero-role span {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 10px;
+      opacity: 0.7;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
 
-  .about-closing {
-    font-family: var(--mono);
-    font-size: clamp(0.7rem, 1.1vw, 0.85rem);
-    font-weight: 300;
-    color: var(--gray);
-    letter-spacing: 0.06em;
-  }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
 
-  /* WORK */
-  .work { padding: 1rem 0 7rem; }
+    .btn-reel {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--off-white);
+      color: var(--black);
+      border: none;
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
 
-  .work-header { padding: 0 4rem 3.5rem; }
+    .btn-reel:hover {
+      background: var(--accent);
+    }
 
-  .work-header h2 {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 200;
-    color: var(--dark);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
+    .btn-reel .play-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-  .work-header h2 span { color: var(--maroon); }
+    .btn-work {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
 
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3px;
-    background: var(--bg2);
-  }
+    .btn-work:hover {
+      border-color: rgba(255,255,255,0.35);
+      color: var(--off-white);
+    }
 
-  .card {
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    aspect-ratio: 16/9;
-    background: var(--bg-card);
-  }
+    /* Scroll cue bottom-left */
+    .hero-scroll {
+      position: absolute;
+      bottom: 28px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.25;
+    }
 
-  /* Featured full-width slots */
-  .card.featured { grid-column: span 2; aspect-ratio: 21/9; }
+    .hero-scroll-line {
+      width: 36px;
+      height: 1px;
+      background: var(--off-white);
+      animation: linePulse 2.2s ease-in-out infinite;
+    }
 
-  /* Placeholder shimmer while thumbnail loads */
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      var(--bg-card) 0%,
-      #ddd4c4 40%,
-      var(--bg-card) 60%,
-      #d4c8b8 100%
-    );
-    background-size: 200% 200%;
-    animation: shimmer 2s ease infinite;
-    z-index: 0;
-    transition: opacity 0.4s ease;
-  }
+    @keyframes linePulse {
+      0%, 100% { width: 36px; opacity: 0.4; }
+      50% { width: 56px; opacity: 1; }
+    }
 
-  .card.loaded::before { opacity: 0; }
+    .hero-scroll span {
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--off-white);
+    }
 
-  .card-thumb {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease;
-    filter: brightness(0.9) saturate(0.85);
-    z-index: 1;
-  }
+    /* RIGHT — photo panel */
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
 
-  .card.loaded .card-thumb { opacity: 1; }
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      filter: grayscale(18%) contrast(1.06);
+      transition: transform 8s ease;
+    }
 
-  .card:hover .card-thumb {
-    transform: scale(1.04);
-    filter: brightness(0.55) saturate(0.7);
-  }
+    .hero-right:hover .hero-photo {
+      transform: scale(1.03);
+    }
 
-  .card-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.8rem;
-    background: linear-gradient(to top, rgba(44,31,20,0.85) 0%, transparent 55%);
-    z-index: 2;
-  }
+    /* Gradient overlay on photo — bleeds into left panel */
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        to right,
+        rgba(6,6,6,0.55) 0%,
+        rgba(6,6,6,0.1) 30%,
+        rgba(6,6,6,0.0) 60%,
+        rgba(6,6,6,0.25) 100%
+      );
+    }
 
-  .card-client {
-    font-size: clamp(1.1rem, 2.2vw, 1.8rem);
-    font-weight: 300;
-    color: var(--white);
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-  }
+    /* Location tag over photo */
+    .hero-location {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      z-index: 2;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      background: rgba(6,6,6,0.55);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
 
-  .card-type {
-    font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    color: var(--blue-light);
-    text-transform: uppercase;
-    margin-top: 0.4rem;
-  }
+    /* Diagonal cut line — decorative */
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: -1px;
+      width: 80px;
+      z-index: 2;
+      background: linear-gradient(to right, var(--black), transparent);
+    }
 
-  .card-play {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%) scale(0.85);
-    width: 54px; height: 54px;
-    border: 1px solid rgba(143,180,204,0.7);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 3;
-  }
+    /* ══════════════════════════════════════
+       MARQUEE STRIP
+    ══════════════════════════════════════ */
+    .marquee-strip {
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.055);
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      padding: 14px 0;
+      background: rgba(255,255,255,0.02);
+    }
 
-  .card-play svg { width: 15px; height: 15px; fill: var(--blue-light); margin-left: 3px; }
-  .card:hover .card-play { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
 
-  /* LIGHTBOX */
-  .lightbox {
-    position: fixed; inset: 0; z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(44,31,20,0.96);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-  }
+    .marquee-track:hover { animation-play-state: paused; }
 
-  .lightbox.open { opacity: 1; pointer-events: all; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
 
-  .lightbox-inner {
-    width: 90vw;
-    max-width: 1100px;
-    transform: scale(0.95);
-    transition: transform 0.4s ease;
-  }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 28px;
+      padding: 0 28px;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
 
-  .lightbox.open .lightbox-inner { transform: scale(1); }
+    .marquee-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
 
-  .lightbox-video { position: relative; padding-bottom: 56.25%; height: 0; }
-  .lightbox-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    /* ══════════════════════════════════════
+       PORTFOLIO SECTION
+    ══════════════════════════════════════ */
+    .portfolio-section {
+      padding: 80px 0 100px;
+    }
 
-  .lightbox-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.2rem 0 0;
-  }
+    .portfolio-header {
+      padding: 0 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 44px;
+    }
 
-  .lightbox-title { font-size: 1.3rem; font-weight: 300; color: var(--white); }
+    .section-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 10px;
+    }
 
-  .lightbox-close {
-    font-family: var(--mono);
-    font-size: 0.63rem;
-    letter-spacing: 0.2em;
-    color: var(--gray-light);
-    text-transform: uppercase;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
+    .portfolio-title {
+      font-family: var(--serif);
+      font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+      font-weight: 400;
+      color: var(--off-white);
+    }
 
-  .lightbox-close:hover { color: var(--blue-light); }
+    .portfolio-title em { font-style: italic; color: rgba(255,255,255,0.28); }
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--bg2);
-    padding: 3.5rem 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
 
-  .footer-name { font-size: 1.1rem; font-weight: 400; color: var(--maroon); letter-spacing: 0.02em; }
+    .filter-tabs button {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.36);
+      font-family: var(--sans);
+      font-size: 0.61rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-  .footer-links { display: flex; gap: 2rem; }
+    .filter-tabs button:hover,
+    .filter-tabs button.active {
+      border-color: var(--accent);
+      color: var(--off-white);
+    }
 
-  .footer-links a {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.15em;
-    color: var(--gray);
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+    /* ══════════════════════════════════════
+       PROJECT GRID
+    ══════════════════════════════════════ */
+    .grid {
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+    }
 
-  .footer-links a:hover { color: var(--blue); }
+    .card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #0d0d0d;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
-  }
-  @keyframes shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .card.hidden  { display: none; }
 
-  @media (max-width: 768px) {
-    header, .about { padding: 4rem 1.5rem 3rem; }
-    .work-header { padding: 0 1.5rem 2rem; }
-    footer { padding: 2.5rem 1.5rem; flex-direction: column; gap: 1.5rem; }
-    .grid { grid-template-columns: 1fr; }
-    .card.featured { grid-column: span 1; aspect-ratio: 16/9; }
-    .scroll-hint { display: none; }
-    .header-meta { gap: 1.2rem; }
-  }
-</style>
+    .card:nth-child(1)  { grid-column: span 8; }
+    .card:nth-child(2)  { grid-column: span 4; }
+    .card:nth-child(3)  { grid-column: span 4; }
+    .card:nth-child(4)  { grid-column: span 4; }
+    .card:nth-child(5)  { grid-column: span 4; }
+    .card:nth-child(6)  { grid-column: span 7; }
+    .card:nth-child(7)  { grid-column: span 5; }
+    .card:nth-child(8)  { grid-column: span 5; }
+    .card:nth-child(9)  { grid-column: span 7; }
+    .card:nth-child(10) { grid-column: span 6; }
+    .card:nth-child(11) { grid-column: span 6; }
+    .card:nth-child(12) { grid-column: span 4; }
+    .card:nth-child(13) { grid-column: span 4; }
+    .card:nth-child(14) { grid-column: span 4; }
+
+    .card-thumb {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .card:hover .card-img { transform: scale(1.06); }
+
+    .card-placeholder {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .card:hover .card-placeholder { transform: scale(1.04); }
+
+    .pal-18birdies  { background: linear-gradient(148deg, #111a0c 0%, #1e2e12 100%); }
+    .pal-planetdds  { background: linear-gradient(148deg, #0a1520 0%, #14263c 100%); }
+    .pal-yuengling1 { background: linear-gradient(148deg, #160c04 0%, #261408 100%); }
+    .pal-yuengling2 { background: linear-gradient(148deg, #180a06 0%, #2a1006 100%); }
+    .pal-yuengling3 { background: linear-gradient(148deg, #140a02 0%, #221204 100%); }
+    .pal-izod       { background: linear-gradient(148deg, #08101a 0%, #101c2e 100%); }
+    .pal-kapitus    { background: linear-gradient(148deg, #0c161e 0%, #162432 100%); }
+    .pal-golfjoy    { background: linear-gradient(148deg, #0a140c 0%, #142016 100%); }
+    .pal-fresno     { background: linear-gradient(148deg, #180e06 0%, #261808 100%); }
+    .pal-amplify    { background: linear-gradient(148deg, #060c1a 0%, #0e1628 100%); }
+    .pal-nreal      { background: linear-gradient(148deg, #080c18 0%, #101824 100%); }
+    .pal-homebound  { background: linear-gradient(148deg, #0e0e0e 0%, #1a1a1a 100%); }
+    .pal-n2         { background: linear-gradient(148deg, #080e0e 0%, #101a1a 100%); }
+    .pal-billups    { background: linear-gradient(148deg, #0e0810 0%, #1a0e1e 100%); }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+      z-index: 2;
+    }
+
+    .card:hover .card-overlay { background: rgba(0,0,0,0.4); }
+
+    .card-play {
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.76);
+      transition: opacity 0.26s ease, transform 0.26s ease;
+    }
+
+    .card:hover .card-play { opacity: 1; transform: scale(1); }
+
+    .card-label {
+      padding: 13px 17px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .card-client {
+      font-family: var(--serif);
+      font-size: 0.98rem;
+      font-weight: 400;
+      color: var(--off-white);
+    }
+
+    .card-type {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.26);
+    }
+
+    /* ══════════════════════════════════════
+       ABOUT PAGE
+    ══════════════════════════════════════ */
+    #page-about { min-height: 100vh; padding-top: var(--nav-h); }
+
+    .about-hero {
+      padding: 80px 48px 100px;
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 80px;
+      align-items: start;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+    }
+
+    .about-name {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.0;
+      color: var(--off-white);
+      margin-bottom: 12px;
+    }
+
+    .about-name em { font-style: italic; color: rgba(255,255,255,0.28); }
+
+    .about-role-tag {
+      font-size: 0.63rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 44px;
+    }
+
+    .about-headshot {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: #141414;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-headshot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .headshot-hint { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.1); }
+
+    .about-bio {
+      font-size: 1.03rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      margin-bottom: 52px;
+      padding-top: 16px;
+    }
+
+    .about-bio strong { color: var(--off-white); font-weight: 400; }
+
+    .discipline-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.26);
+      margin-bottom: 16px;
+    }
+
+    .discipline-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 52px;
+    }
+
+    .discipline-pill {
+      border: 1px solid rgba(255,255,255,0.09);
+      padding: 7px 15px;
+      font-size: 0.71rem;
+      letter-spacing: 0.07em;
+      color: rgba(255,255,255,0.44);
+    }
+
+    .client-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .client-item {
+      padding: 20px 14px;
+      background: var(--black);
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.28);
+      text-align: center;
+      transition: color 0.2s;
+    }
+
+    .client-item:hover { color: rgba(255,255,255,0.65); }
+
+    /* ══════════════════════════════════════
+       CONTACT PAGE
+    ══════════════════════════════════════ */
+    #page-contact { min-height: 100vh; padding-top: var(--nav-h); display: flex; flex-direction: column; justify-content: center; }
+
+    .contact-wrap {
+      padding: 100px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-eyebrow { font-size: 0.61rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+
+    .contact-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.0;
+      color: var(--off-white);
+      margin-bottom: 40px;
+    }
+
+    .contact-title em { font-style: italic; color: rgba(255,255,255,0.28); }
+
+    .contact-email-link {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      color: var(--off-white);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding-bottom: 8px;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .contact-email-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .contact-social { border-top: 1px solid rgba(255,255,255,0.06); margin-top: 16px; }
+
+    .social-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-decoration: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.86rem;
+      transition: color 0.2s;
+    }
+
+    .social-link:hover { color: var(--off-white); }
+
+    /* ══════════════════════════════════════
+       MODAL
+    ══════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s;
+    }
+
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-inner { width: 90vw; max-width: 1200px; }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .modal-client-label { font-family: var(--serif); font-size: 1.05rem; color: var(--off-white); }
+
+    .modal-close {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.4);
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 8px 17px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover { border-color: rgba(255,255,255,0.38); color: var(--off-white); }
+
+    .modal-video { position: relative; aspect-ratio: 16/9; background: #0a0a0a; }
+
+    .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    .modal-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .modal-placeholder p {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.16);
+      text-align: center;
+      line-height: 2;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p { font-size: 0.61rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.16); }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr 1fr; }
+      .hero-name { font-size: clamp(2.6rem, 5vw, 4rem); }
+      nav, .portfolio-header, .grid, .about-hero, .contact-wrap, footer { padding-left: 32px; padding-right: 32px; }
+      .card:nth-child(1) { grid-column: span 12; }
+      .card:nth-child(2), .card:nth-child(3) { grid-column: span 6; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 14px; }
+      .hero { grid-template-columns: 1fr; grid-template-rows: 1fr auto; height: auto; min-height: 100vh; }
+      .hero-right { height: 52vh; order: -1; }
+      .hero-right::after { display: none; }
+      .hero-left { padding: 40px 24px 56px; }
+      .hero-left::after { display: none; }
+      .portfolio-header { flex-direction: column; align-items: flex-start; gap: 18px; padding: 0 24px; }
+      .grid { padding: 0 24px; grid-template-columns: 1fr; }
+      .card:nth-child(n) { grid-column: span 1 !important; }
+      .about-hero { grid-template-columns: 1fr; padding: 48px 24px 64px; }
+      .contact-wrap { grid-template-columns: 1fr; padding: 60px 24px; }
+      .client-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 20px 24px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="header-bg"></div>
-  <div class="header-label">Los Angeles</div>
-  <h1>CJ<br><span>Karpiak</span></h1>
-  <div class="header-meta">
-    <span>Creative Producer</span>
-    <span>Director</span>
-    <span>Writer</span>
-    <a href="mailto:cjkarpiak@gmail.com">cjkarpiak@gmail.com</a>
-    <a href="https://vimeo.com/craigjamesjr" target="_blank">Vimeo ↗</a>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</header>
+  <!-- ══════ NAV ══════ -->
+  <nav id="nav">
+    <span class="nav-logo" onclick="showPage('home')">CJ Karpiak</span>
+    <ul class="nav-links">
+      <li><button onclick="showPage('home')" id="nav-home" class="active">Work</button></li>
+      <li><button onclick="showPage('about')" id="nav-about">About</button></li>
+      <li><button onclick="showPage('contact')" id="nav-contact" class="nav-cta">Contact</button></li>
+    </ul>
+  </nav>
 
-<section class="about">
-  <div class="section-tag">About</div>
-  <p class="about-titles">Director. Writer. Award-Winning Producer.</p>
-  <p class="about-closing">Broadcast &nbsp;·&nbsp; Digital &nbsp;·&nbsp; Social &nbsp;·&nbsp; OTT &nbsp;&nbsp;—&nbsp;&nbsp; Every frame costs something. Every story should be worth it.</p>
-</section>
 
-<section class="work">
-  <div class="work-header">
-    <h2>Selected<br><span>Work</span></h2>
-  </div>
+  <!-- ══════════════════════════════════
+       PAGE: WORK
+  ══════════════════════════════════ -->
+  <div id="page-home" class="page active">
 
-  <div class="grid" id="grid"></div>
-</section>
+    <!-- HERO -->
+    <section class="hero">
 
-<footer>
-  <div class="footer-name">CJ Karpiak</div>
-  <div class="footer-links">
-    <a href="mailto:cjkarpiak@gmail.com">Email</a>
-    <a href="https://vimeo.com/craigjamesjr" target="_blank">Vimeo</a>
-    <a href="https://www.linkedin.com/in/cj-karpiak/" target="_blank">LinkedIn</a>
-  </div>
-</footer>
+      <!-- LEFT TEXT PANEL -->
+      <div class="hero-left">
+        <p class="hero-overline">Los Angeles · Available for Work</p>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lightbox-inner">
-    <div class="lightbox-video">
-      <iframe id="lightbox-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
-    </div>
-    <div class="lightbox-meta">
-      <div class="lightbox-title" id="lightbox-title"></div>
-      <button class="lightbox-close" onclick="closeLightboxBtn()">Close ✕</button>
-    </div>
-  </div>
-</div>
+        <h1 class="hero-name">
+          CJ<br>
+          <span class="line2">Karpiak</span>
+        </h1>
 
-<script>
-  // Video data — position 0 and 5 are featured (full-width)
-  const videos = [
-    { id: '1183119023', client: '18Birdies',        type: 'Brand Campaign · Director / Writer / Producer', featured: true },
-    { id: '1183124212', client: 'Denticon',          type: '"Secret Agents" · Mockumentary Campaign' },
-    { id: '1183120845', client: 'Denticon',          type: '"Support Group" · Mockumentary Campaign' },
-    { id: '1095773033', client: 'Kapitus',           type: 'Broadcast TV · :30 National Spot' },
-    { id: '1114376612', client: 'Yuengling',         type: 'Documentary Style · :60' },
-    { id: '903166986',  client: 'Nreal',             type: 'Consumer Tech · Product Launch', featured: true },
-    { id: '903171451',  client: 'Daymond John',      type: 'ClickFunnels · :60 Direct Response' },
-    { id: '1156645053', client: 'Izod',              type: 'Legacy Brand Campaign' },
-    { id: '1190556053', client: 'Melia Hotels',      type: 'Hospitality · Brand Film' },
-    { id: '1183175882', client: 'Florida Crystals',  type: 'CPG · Brand Campaign' },
-    { id: '1095772397', client: 'Stroll Magazine',   type: 'N2 Publishing · Brand Story' },
-    { id: '1163459941', client: 'Amplify Life',      type: 'Insurance · Brand Campaign' },
-    { id: '1183127883', client: 'Denticon',           type: 'Mockumentary Campaign' },
-    { id: '1114375004', client: 'GolfJoy',            type: 'Sports App · Brand Campaign' },
-    { id: '990709746',  client: 'Potent Hockey',      type: 'Sports · Brand Film' },
-    { id: '1120218680', client: 'Billups',            type: 'OOH Technology · Brand Campaign' },
-    { id: '1114378964', client: 'Yuengling Flight',   type: 'CPG · Product Campaign' },
-    { id: '1163462357', client: 'Hall & Hall',        type: 'Real Estate · Brand Film' },
-    { id: '1190568472', client: 'Izod',               type: 'Apparel · Brand Campaign' },
-    { id: '1190569681', client: 'Lifehouse Hotels',   type: 'Hospitality x Lightspeed · Brand Film' },
-    { id: '1163460686', client: 'Winpak',             type: 'B2B Manufacturing · Brand Film' },
-    { id: '1190571649', client: 'Winpak',             type: 'B2B Manufacturing · Campaign' },
-    { id: '1190572231', client: 'Hall & Hall',        type: 'Real Estate · Brand Campaign' },
-    { id: '1190576497', client: 'Google x GXO',       type: 'Google · Case Study' },
-    { id: '1190576120', client: 'Google x Priceline', type: 'Google · Case Study' },
-    { id: '1190576119', client: 'Google x VW',        type: 'Google · Case Study' },
-    { id: '1190574160', client: 'Adeedo',             type: 'Home Services · Brand Campaign' },
-    { id: '1190577668', client: 'Thryv x The Range',  type: 'SMB · Brand Film' },
-    { id: '1191205604', client: 'Namely',             type: 'HR Software · Brand Campaign' },
-    { id: '1191207535', client: 'Namely',             type: 'HR Software · Product Campaign' },
-    { id: '1191210129', client: 'Boost Oxygen',       type: 'CPG · Brand Campaign' },
-    { id: '1191214124', client: '18Birdies',          type: 'Golf App · Long-Form Product Film' },
-    { id: '1191217415', client: 'Hartbeat Media',     type: 'Sizzle Reel' },
-    { id: '1191217416', client: 'TopGolf',            type: 'Philanthropic Event Highlight' },
-  ];
+        <div class="hero-roles">
+          <p class="hero-role"><span></span>Director</p>
+          <p class="hero-role"><span></span>Creative Producer</p>
+          <p class="hero-role"><span></span>Copywriter</p>
+        </div>
 
-  const grid = document.getElementById('grid');
+        <div class="hero-actions">
+          <button class="btn-reel" onclick="openModal('', 'Showreel')">
+            <div class="play-dot">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="white"><polygon points="2,1 9,5 2,9"/></svg>
+            </div>
+            Watch Reel
+          </button>
+          <button class="btn-work" onclick="document.querySelector('.portfolio-section').scrollIntoView({behavior:'smooth'})">
+            View Work
+          </button>
+        </div>
 
-  // Build cards immediately with shimmer placeholders
-  videos.forEach(v => {
-    const card = document.createElement('div');
-    card.className = 'card' + (v.featured ? ' featured' : '');
-    card.innerHTML = `
-      <img class="card-thumb" alt="${v.client}" loading="lazy">
-      <div class="card-overlay">
-        <div class="card-client">${v.client}</div>
-        <div class="card-type">${v.type}</div>
+        <div class="hero-scroll">
+          <div class="hero-scroll-line"></div>
+          <span>Scroll</span>
+        </div>
       </div>
-      <div class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-    `;
-    card.addEventListener('click', () => openLightbox(
-      `https://player.vimeo.com/video/${v.id}?autoplay=1`, v.client
-    ));
-    grid.appendChild(card);
 
-    // Fetch thumbnail via Vimeo oEmbed (no auth required)
-    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${v.id}&width=1280`)
-      .then(r => r.json())
-      .then(data => {
-        if (data.thumbnail_url) {
-          const img = card.querySelector('.card-thumb');
-          // Request larger size by replacing _640 with _1280
-          const large = data.thumbnail_url.replace(/_\d+\./, '_1280.');
-          img.src = large;
-          img.onload = () => card.classList.add('loaded');
-          img.onerror = () => { img.src = data.thumbnail_url; img.onload = () => card.classList.add('loaded'); };
-        }
-      })
-      .catch(() => {});
-  });
+      <!-- RIGHT PHOTO PANEL -->
+      <div class="hero-right">
+        <!--
+          IMAGE: Replace src below with the path to your converted JPEG.
+          On Netlify, place hero-still.jpg next to portfolio.html or in a folder.
+          Current image: GolfJoy tee box — cinematic golden-hour frame.
+        -->
+        <img class="hero-photo" src="hero-still.jpg" alt="CJ Karpiak — Director" />
+        <span class="hero-location">Los Angeles, CA</span>
+      </div>
 
-  // Lightbox
-  function openLightbox(src, title) {
-    document.getElementById('lightbox-iframe').src = src;
-    document.getElementById('lightbox-title').textContent = title;
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
+    </section>
 
-  function closeLightbox(e) {
-    if (e.target === document.getElementById('lightbox')) closeLightboxBtn();
-  }
+    <!-- CLIENT MARQUEE -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <!-- First set -->
+        <span class="marquee-item">18Birdies <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Planet DDS <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Yuengling <span class="marquee-dot"></span></span>
+        <span class="marquee-item">IZOD <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Kapitus <span class="marquee-dot"></span></span>
+        <span class="marquee-item">GolfJoy <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Visit Fresno <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Amplify Life <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Nreal <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Homebound <span class="marquee-dot"></span></span>
+        <span class="marquee-item">N2 <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Billups <span class="marquee-dot"></span></span>
+        <!-- Duplicate for seamless loop -->
+        <span class="marquee-item">18Birdies <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Planet DDS <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Yuengling <span class="marquee-dot"></span></span>
+        <span class="marquee-item">IZOD <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Kapitus <span class="marquee-dot"></span></span>
+        <span class="marquee-item">GolfJoy <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Visit Fresno <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Amplify Life <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Nreal <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Homebound <span class="marquee-dot"></span></span>
+        <span class="marquee-item">N2 <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Billups <span class="marquee-dot"></span></span>
+      </div>
+    </div>
 
-  function closeLightboxBtn() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.getElementById('lightbox-iframe').src = '';
-    document.body.style.overflow = '';
-  }
+    <!-- PORTFOLIO GRID -->
+    <section class="portfolio-section">
+      <div class="portfolio-header">
+        <div>
+          <p class="section-eyebrow">Selected Work</p>
+          <h2 class="portfolio-title">Recent <em>Projects</em></h2>
+        </div>
+        <ul class="filter-tabs">
+          <li><button class="active" data-filter="all">All</button></li>
+          <li><button data-filter="commercial">Commercial</button></li>
+          <li><button data-filter="brand">Brand Film</button></li>
+          <li><button data-filter="sport">Sport</button></li>
+          <li><button data-filter="lifestyle">Lifestyle</button></li>
+        </ul>
+      </div>
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightboxBtn(); });
+      <div class="grid" id="project-grid">
 
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15 });
+        <!-- 1 · 18Birdies -->
+        <div class="card" data-vimeo="" data-cat="sport brand" data-client="18Birdies">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-18birdies">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">18Birdies</span><span class="card-type">Brand Film · Sport</span></div>
+        </div>
 
-  document.querySelectorAll('.about').forEach(el => observer.observe(el));
-</script>
+        <!-- 2 · Planet DDS -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Planet DDS">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-planetdds">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Planet DDS</span><span class="card-type">Commercial</span></div>
+        </div>
+
+        <!-- 3 · Yuengling I -->
+        <div class="card" data-vimeo="" data-cat="commercial lifestyle" data-client="Yuengling">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-yuengling1">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Commercial · Vol. I</span></div>
+        </div>
+
+        <!-- 4 · Yuengling II -->
+        <div class="card" data-vimeo="" data-cat="commercial lifestyle" data-client="Yuengling">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-yuengling2">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Commercial · Vol. II</span></div>
+        </div>
+
+        <!-- 5 · Yuengling III -->
+        <div class="card" data-vimeo="" data-cat="commercial lifestyle" data-client="Yuengling">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-yuengling3">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Commercial · Vol. III</span></div>
+        </div>
+
+        <!-- 6 · IZOD -->
+        <div class="card" data-vimeo="" data-cat="commercial lifestyle brand" data-client="IZOD">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-izod">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">IZOD</span><span class="card-type">Brand · Lifestyle</span></div>
+        </div>
+
+        <!-- 7 · Kapitus -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Kapitus">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-kapitus">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Kapitus</span><span class="card-type">Brand Film</span></div>
+        </div>
+
+        <!-- 8 · GolfJoy -->
+        <div class="card" data-vimeo="" data-cat="sport lifestyle" data-client="GolfJoy">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-golfjoy">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">GolfJoy</span><span class="card-type">Sport · Lifestyle</span></div>
+        </div>
+
+        <!-- 9 · Visit Fresno -->
+        <div class="card" data-vimeo="" data-cat="brand lifestyle" data-client="Visit Fresno">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-fresno">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Visit Fresno</span><span class="card-type">Tourism · Brand Film</span></div>
+        </div>
+
+        <!-- 10 · Amplify Life -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Amplify Life Insurance">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-amplify">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Amplify Life Insurance</span><span class="card-type">Commercial</span></div>
+        </div>
+
+        <!-- 11 · Nreal -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Nreal">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-nreal">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Nreal</span><span class="card-type">Tech · Commercial</span></div>
+        </div>
+
+        <!-- 12 · Homebound -->
+        <div class="card" data-vimeo="" data-cat="brand lifestyle" data-client="Homebound">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-homebound">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Homebound</span><span class="card-type">Brand Film</span></div>
+        </div>
+
+        <!-- 13 · N2 -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="N2">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-n2">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">N2</span><span class="card-type">Commercial</span></div>
+        </div>
+
+        <!-- 14 · Billups -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Billups">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-billups">
+              <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+            </div>
+          </div>
+          <div class="card-label"><span class="card-client">Billups</span><span class="card-type">Brand · Commercial</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 CJ Karpiak</p>
+      <p>Los Angeles, CA</p>
+    </footer>
+
+  </div><!-- /page-home -->
+
+
+  <!-- ══════════════════════════════════
+       PAGE: ABOUT
+  ══════════════════════════════════ -->
+  <div id="page-about" class="page">
+    <div class="about-hero">
+      <div>
+        <h1 class="about-name">CJ<br>Karpi<em>ak</em></h1>
+        <p class="about-role-tag">Director · Creative Producer · Copywriter</p>
+        <div class="about-headshot">
+          <span class="headshot-hint">Photo here</span>
+        </div>
+      </div>
+      <div>
+        <p class="about-bio">
+          I'm a director and creative producer based in <strong>Los Angeles</strong>, working at the intersection of storytelling, strategy, and craft. I write, direct, and produce branded content and commercials for consumer, lifestyle, sports, and tech brands — from concept through delivery.
+          <br><br>
+          I come from a <strong>theater background</strong>, trained at Hanover College, which means I think in performance, pacing, and the quiet moments that actually land. That instinct carries into everything I direct: the shot that earns emotion rather than demands it, the line of copy that doesn't sound like it was written in a conference room.
+          <br><br>
+          From <strong>single-spot commercials</strong> to multi-video campaigns, I build work that holds up — visually, strategically, and past the first watch.
+        </p>
+        <p class="discipline-label">Disciplines</p>
+        <div class="discipline-list">
+          <span class="discipline-pill">Directing</span>
+          <span class="discipline-pill">Creative Production</span>
+          <span class="discipline-pill">Copywriting</span>
+          <span class="discipline-pill">Brand Strategy</span>
+          <span class="discipline-pill">Campaign Development</span>
+          <span class="discipline-pill">Branded Content</span>
+          <span class="discipline-pill">Commercial</span>
+          <span class="discipline-pill">Documentary Style</span>
+          <span class="discipline-pill">Script to Screen</span>
+        </div>
+        <p class="discipline-label">Clients Include</p>
+        <div class="client-grid">
+          <div class="client-item">18Birdies</div>
+          <div class="client-item">Planet DDS</div>
+          <div class="client-item">Yuengling</div>
+          <div class="client-item">IZOD</div>
+          <div class="client-item">Kapitus</div>
+          <div class="client-item">GolfJoy</div>
+          <div class="client-item">Visit Fresno</div>
+          <div class="client-item">Amplify Life</div>
+          <div class="client-item">Nreal</div>
+          <div class="client-item">Homebound</div>
+          <div class="client-item">N2</div>
+          <div class="client-item">Billups</div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>© 2026 CJ Karpiak</p>
+      <p>Los Angeles, CA</p>
+    </footer>
+  </div>
+
+
+  <!-- ══════════════════════════════════
+       PAGE: CONTACT
+  ══════════════════════════════════ -->
+  <div id="page-contact" class="page">
+    <div class="contact-wrap">
+      <div>
+        <p class="contact-eyebrow">Get in Touch</p>
+        <h2 class="contact-title">Let's make<br>something <em>real.</em></h2>
+        <a href="mailto:your@email.com" class="contact-email-link">your@email.com</a>
+      </div>
+      <div>
+        <p class="discipline-label" style="margin-bottom:0">Find me here</p>
+        <div class="contact-social">
+          <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-link">LinkedIn <span>↗</span></a>
+          <a href="https://vimeo.com/yourprofile" target="_blank" class="social-link">Vimeo <span>↗</span></a>
+          <a href="https://instagram.com/yourhandle" target="_blank" class="social-link">Instagram <span>↗</span></a>
+          <a href="https://imdb.com" target="_blank" class="social-link">IMDb <span>↗</span></a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>© 2026 CJ Karpiak</p>
+      <p>Los Angeles, CA</p>
+    </footer>
+  </div>
+
+
+  <!-- ══════ MODAL ══════ -->
+  <div class="modal-overlay" id="modal" onclick="closeModalOnOverlay(event)">
+    <div class="modal-inner">
+      <div class="modal-top">
+        <span class="modal-client-label" id="modal-label"></span>
+        <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      </div>
+      <div class="modal-video" id="modal-video-inner">
+        <div class="modal-placeholder">
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+            <circle cx="25" cy="25" r="23" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <polygon points="20,16 38,25 20,34" fill="rgba(255,255,255,0.1)"/>
+          </svg>
+          <p>Add your Vimeo ID to<br>data-vimeo="" on each card</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // ── PAGE NAV ──
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('nav-' + name);
+      if (btn) btn.classList.add('active');
+      window.scrollTo(0, 0);
+      if (name === 'home') initCards();
+    }
+
+    // ── NAV SOLID ──
+    document.getElementById('nav').classList.add('solid');
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('solid', window.scrollY > 10);
+    });
+
+    // ── CARD ENTRANCE ──
+    function initCards() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(c => c.classList.remove('visible'));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 52);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.04 });
+      cards.forEach(c => obs.observe(c));
+    }
+    initCards();
+
+    // ── FILTER ──
+    document.querySelectorAll('.filter-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.card').forEach(card => {
+          card.classList.toggle('hidden', filter !== 'all' && !(card.getAttribute('data-cat') || '').includes(filter));
+        });
+      });
+    });
+
+    // ── CARD CLICK → MODAL ──
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (!card.classList.contains('hidden'))
+          openModal(card.getAttribute('data-vimeo'), card.getAttribute('data-client'));
+      });
+    });
+
+    function openModal(videoId, clientName) {
+      const inner = document.getElementById('modal-video-inner');
+      document.getElementById('modal-label').textContent = clientName || '';
+      inner.innerHTML = videoId && videoId.length > 3
+        ? `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&color=c8ae82&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+        : `<div class="modal-placeholder"><svg width="50" height="50" viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="23" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><polygon points="20,16 38,25 20,34" fill="rgba(255,255,255,0.1)"/></svg><p>Set data-vimeo="" on the <strong style="color:rgba(255,255,255,0.35)">${clientName}</strong> card<br>to link your video</p></div>`;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { document.getElementById('modal-video-inner').innerHTML = ''; }, 300);
+    }
+
+    function closeModalOnOverlay(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+
 </body>
 </html>
