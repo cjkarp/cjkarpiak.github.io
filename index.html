@@ -194,38 +194,6 @@
       align-items: center;
     }
 
-    .btn-reel {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--off-white);
-      color: var(--black);
-      border: none;
-      font-family: var(--sans);
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 14px 24px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .btn-reel:hover {
-      background: var(--accent);
-    }
-
-    .btn-reel .play-dot {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
     .btn-work {
       background: none;
       border: 1px solid rgba(255,255,255,0.14);
@@ -384,6 +352,50 @@
       flex-shrink: 0;
     }
 
+    /* ── FRAMES MARQUEE ── */
+    .frames-marquee {
+      overflow: hidden;
+      padding: 22px 0;
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      position: relative;
+      z-index: 1;
+    }
+    .frames-marquee-track {
+      display: flex;
+      gap: 14px;
+      animation: marquee 46s linear infinite;
+      width: max-content;
+      padding: 0 7px;
+    }
+    .frames-marquee:hover .frames-marquee-track { animation-play-state: paused; }
+    .fm-frame {
+      flex-shrink: 0;
+      width: 230px;
+      height: 130px;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #0d0d0d;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94), z-index 0s;
+      transform-origin: center center;
+    }
+    .fm-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+    }
+    .fm-frame:hover {
+      transform: scale(1.7);
+      z-index: 20;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+    }
+    @media (max-width: 768px) {
+      .fm-frame { width: 170px; height: 96px; }
+      .fm-frame:hover { transform: scale(1.4); }
+    }
+
     /* ══════════════════════════════════════
        PORTFOLIO SECTION
     ══════════════════════════════════════ */
@@ -464,20 +476,15 @@
     .card.visible { opacity: 1; transform: translateY(0); }
     .card.hidden  { display: none; }
 
-    .card:nth-child(1)  { grid-column: span 8; }
-    .card:nth-child(2)  { grid-column: span 4; }
-    .card:nth-child(3)  { grid-column: span 4; }
-    .card:nth-child(4)  { grid-column: span 4; }
-    .card:nth-child(5)  { grid-column: span 4; }
-    .card:nth-child(6)  { grid-column: span 7; }
-    .card:nth-child(7)  { grid-column: span 5; }
-    .card:nth-child(8)  { grid-column: span 5; }
-    .card:nth-child(9)  { grid-column: span 7; }
-    .card:nth-child(10) { grid-column: span 6; }
-    .card:nth-child(11) { grid-column: span 6; }
-    .card:nth-child(12) { grid-column: span 4; }
-    .card:nth-child(13) { grid-column: span 4; }
-    .card:nth-child(14) { grid-column: span 4; }
+    /* Scalable asymmetric rhythm — repeats every 7 cards, balanced to 12 cols */
+    .card { grid-column: span 4; }
+    .card:nth-child(7n+1) { grid-column: span 8; }
+    .card:nth-child(7n+2) { grid-column: span 4; }
+    .card:nth-child(7n+3) { grid-column: span 4; }
+    .card:nth-child(7n+4) { grid-column: span 4; }
+    .card:nth-child(7n+5) { grid-column: span 7; }
+    .card:nth-child(7n+6) { grid-column: span 5; }
+    .card:nth-child(7n+7) { grid-column: span 12; }
 
     .card-thumb {
       aspect-ratio: 16/9;
@@ -517,6 +524,116 @@
     .pal-homebound  { background: linear-gradient(148deg, #0e0e0e 0%, #1a1a1a 100%); }
     .pal-n2         { background: linear-gradient(148deg, #080e0e 0%, #101a1a 100%); }
     .pal-billups    { background: linear-gradient(148deg, #0e0810 0%, #1a0e1e 100%); }
+    .pal-topgolf    { background: linear-gradient(148deg, #1a1206 0%, #2e2008 100%); }
+    .pal-changery   { background: linear-gradient(148deg, #0a1418 0%, #142a30 100%); }
+    .pal-winpak     { background: linear-gradient(148deg, #101418 0%, #1c242c 100%); }
+    .pal-surge      { background: linear-gradient(148deg, #0c0a18 0%, #18142e 100%); }
+    .pal-hartbeat   { background: linear-gradient(148deg, #18060c 0%, #2c0a16 100%); }
+    .pal-hallhall   { background: linear-gradient(148deg, #0c1408 0%, #182612 100%); }
+    .pal-yueng-amb  { background: linear-gradient(148deg, #160c04 0%, #2a1608 100%); }
+    .pal-lifehouse  { background: linear-gradient(148deg, #140e10 0%, #241a20 100%); }
+    .pal-clickfunnels { background: linear-gradient(148deg, #0c0c0e 0%, #18181c 100%); }
+    .pal-melia        { background: linear-gradient(148deg, #1a1208 0%, #2c2010 100%); }
+    .pal-namely       { background: linear-gradient(148deg, #081420 0%, #102838 100%); }
+    .pal-range        { background: linear-gradient(148deg, #0c1408 0%, #182612 100%); }
+    .pal-potent       { background: linear-gradient(148deg, #160a04 0%, #2a1408 100%); }
+
+    /* ══════ SIDE FILM STRIPS ══════ */
+    .side-strip {
+      position: fixed;
+      top: 0;
+      width: 64px;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .side-left  { left: 0; }
+    .side-right { right: 0; }
+    /* Subtle gradient mask so strips fade into the page top & bottom */
+    .side-strip::before,
+    .side-strip::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      height: 120px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .side-strip::before { top: 0; background: linear-gradient(to bottom, var(--black), transparent); }
+    .side-strip::after  { bottom: 0; background: linear-gradient(to top, var(--black), transparent); }
+    /* Hairline separating strip from content */
+    .side-left  { border-right: 1px solid rgba(255,255,255,0.05); }
+    .side-right { border-left: 1px solid rgba(255,255,255,0.05); }
+
+    .strip-track {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      will-change: transform;
+      padding-top: 80px;
+    }
+    .strip-cell {
+      width: 100%;
+      height: 150px;
+      background-color: #101010;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      filter: grayscale(0.35) brightness(0.62);
+      transition: filter 0.5s ease;
+    }
+
+    /* Only show the rails where there's room; they frame, never crowd */
+    @media (min-width: 1500px) {
+      .side-strip { opacity: 0.5; }
+      #page-home { max-width: calc(100vw - 160px); margin: 0 auto; position: relative; z-index: 1; background: var(--black); }
+    }
+    @media (min-width: 1750px) {
+      .side-strip { width: 78px; opacity: 0.62; }
+      #page-home { max-width: calc(100vw - 196px); }
+    }
+
+      position: fixed; inset: 0;
+      background: rgba(4,4,4,0.96);
+      z-index: 500;
+      display: none;
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .lightbox.open { display: flex; opacity: 1; }
+    .lightbox img {
+      max-width: 90vw; max-height: 86vh;
+      object-fit: contain;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+    .lb-close {
+      position: absolute; top: 28px; right: 32px;
+      background: none; border: none; color: var(--off-white);
+      font-size: 0.85rem; letter-spacing: 0.05em; cursor: pointer;
+      font-family: var(--sans); opacity: 0.7; transition: opacity 0.2s;
+    }
+    .lb-close:hover { opacity: 1; }
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: 1px solid rgba(255,255,255,0.2);
+      color: var(--off-white); width: 46px; height: 46px; border-radius: 50%;
+      cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .lb-arrow:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+    .lb-prev { left: 28px; }
+    .lb-next { right: 28px; }
+    .lb-counter {
+      position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+      color: var(--mid); font-size: 0.78rem; letter-spacing: 0.08em;
+    }
+    @media (max-width: 560px) {
+      .lb-arrow { width: 38px; height: 38px; }
+      .lb-prev { left: 10px; } .lb-next { right: 10px; }
+    }
 
     .card-overlay {
       position: absolute;
@@ -850,12 +967,134 @@
   ══════════════════════════════════ -->
   <div id="page-home" class="page active">
 
+    <!-- SIDE FILM STRIPS (decorative, parallax on scroll) -->
+    <div class="side-strip side-left" aria-hidden="true">
+      <div class="strip-track" id="strip-left">
+        <div class="strip-cell" style="background-image:url('frames/frame-01.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-03.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-05.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-07.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-09.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-11.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-13.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-15.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-17.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-19.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-21.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-23.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-25.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-27.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-02.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-04.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-06.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-08.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-10.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-12.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-14.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-16.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-18.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-20.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-22.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-24.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-26.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-28.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-01.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-03.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-05.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-07.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-09.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-11.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-13.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-15.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-17.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-19.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-21.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-23.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-25.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-27.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-02.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-04.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-06.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-08.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-10.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-12.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-14.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-16.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-18.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-20.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-22.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-24.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-26.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-28.jpg')"></div>
+      </div>
+    </div>
+    <div class="side-strip side-right" aria-hidden="true">
+      <div class="strip-track" id="strip-right">
+        <div class="strip-cell" style="background-image:url('frames/frame-28.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-26.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-24.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-22.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-20.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-18.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-16.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-14.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-12.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-10.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-08.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-06.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-04.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-02.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-27.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-25.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-23.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-21.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-19.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-17.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-15.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-13.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-11.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-09.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-07.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-05.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-03.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-01.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-28.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-26.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-24.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-22.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-20.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-18.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-16.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-14.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-12.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-10.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-08.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-06.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-04.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-02.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-27.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-25.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-23.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-21.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-19.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-17.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-15.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-13.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-11.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-09.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-07.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-05.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-03.jpg')"></div>
+        <div class="strip-cell" style="background-image:url('frames/frame-01.jpg')"></div>
+      </div>
+    </div>
+
     <!-- HERO -->
     <section class="hero">
 
       <!-- LEFT TEXT PANEL -->
       <div class="hero-left">
-        <p class="hero-overline">Los Angeles · Available for Work</p>
+        <p class="hero-overline">Los Angeles · Open to Select Projects</p>
 
         <h1 class="hero-name">
           CJ<br>
@@ -869,12 +1108,6 @@
         </div>
 
         <div class="hero-actions">
-          <button class="btn-reel" onclick="openModal('', 'Showreel')">
-            <div class="play-dot">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="white"><polygon points="2,1 9,5 2,9"/></svg>
-            </div>
-            Watch Reel
-          </button>
           <button class="btn-work" onclick="document.querySelector('.portfolio-section').scrollIntoView({behavior:'smooth'})">
             View Work
           </button>
@@ -904,7 +1137,7 @@
       <div class="marquee-track">
         <!-- First set -->
         <span class="marquee-item">18Birdies <span class="marquee-dot"></span></span>
-        <span class="marquee-item">Planet DDS <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Denticon <span class="marquee-dot"></span></span>
         <span class="marquee-item">Yuengling <span class="marquee-dot"></span></span>
         <span class="marquee-item">IZOD <span class="marquee-dot"></span></span>
         <span class="marquee-item">Kapitus <span class="marquee-dot"></span></span>
@@ -915,9 +1148,20 @@
         <span class="marquee-item">Homebound <span class="marquee-dot"></span></span>
         <span class="marquee-item">N2 <span class="marquee-dot"></span></span>
         <span class="marquee-item">Billups <span class="marquee-dot"></span></span>
+        <span class="marquee-item">TopGolf <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Hartbeat Media <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Hall and Hall <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Winpak <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Surge AI <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Lifehouse Hotels <span class="marquee-dot"></span></span>
+        <span class="marquee-item">ClickFunnels <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Meliá Cozumel <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Namely <span class="marquee-dot"></span></span>
+        <span class="marquee-item">The Range <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Potent Hockey <span class="marquee-dot"></span></span>
         <!-- Duplicate for seamless loop -->
         <span class="marquee-item">18Birdies <span class="marquee-dot"></span></span>
-        <span class="marquee-item">Planet DDS <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Denticon <span class="marquee-dot"></span></span>
         <span class="marquee-item">Yuengling <span class="marquee-dot"></span></span>
         <span class="marquee-item">IZOD <span class="marquee-dot"></span></span>
         <span class="marquee-item">Kapitus <span class="marquee-dot"></span></span>
@@ -928,6 +1172,81 @@
         <span class="marquee-item">Homebound <span class="marquee-dot"></span></span>
         <span class="marquee-item">N2 <span class="marquee-dot"></span></span>
         <span class="marquee-item">Billups <span class="marquee-dot"></span></span>
+        <span class="marquee-item">TopGolf <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Hartbeat Media <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Hall and Hall <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Winpak <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Surge AI <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Lifehouse Hotels <span class="marquee-dot"></span></span>
+        <span class="marquee-item">ClickFunnels <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Meliá Cozumel <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Namely <span class="marquee-dot"></span></span>
+        <span class="marquee-item">The Range <span class="marquee-dot"></span></span>
+        <span class="marquee-item">Potent Hockey <span class="marquee-dot"></span></span>
+      </div>
+    </div>
+
+    <!-- FRAMES MARQUEE -->
+    <div class="frames-marquee" id="frames-marquee">
+      <div class="frames-marquee-track">
+        <!-- Set A -->
+        <div class="fm-frame" data-full="frames/frame-01.jpg"><img src="frames/frame-01.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-02.jpg"><img src="frames/frame-02.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-03.jpg"><img src="frames/frame-03.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-04.jpg"><img src="frames/frame-04.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-05.jpg"><img src="frames/frame-05.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-06.jpg"><img src="frames/frame-06.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-07.jpg"><img src="frames/frame-07.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-08.jpg"><img src="frames/frame-08.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-09.jpg"><img src="frames/frame-09.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-10.jpg"><img src="frames/frame-10.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-11.jpg"><img src="frames/frame-11.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-12.jpg"><img src="frames/frame-12.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-13.jpg"><img src="frames/frame-13.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-14.jpg"><img src="frames/frame-14.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-15.jpg"><img src="frames/frame-15.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-16.jpg"><img src="frames/frame-16.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-17.jpg"><img src="frames/frame-17.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-18.jpg"><img src="frames/frame-18.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-19.jpg"><img src="frames/frame-19.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-20.jpg"><img src="frames/frame-20.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-21.jpg"><img src="frames/frame-21.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-22.jpg"><img src="frames/frame-22.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-23.jpg"><img src="frames/frame-23.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-24.jpg"><img src="frames/frame-24.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-25.jpg"><img src="frames/frame-25.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-26.jpg"><img src="frames/frame-26.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-27.jpg"><img src="frames/frame-27.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-28.jpg"><img src="frames/frame-28.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <!-- Set B (duplicate for seamless loop) -->
+        <div class="fm-frame" data-full="frames/frame-01.jpg"><img src="frames/frame-01.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-02.jpg"><img src="frames/frame-02.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-03.jpg"><img src="frames/frame-03.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-04.jpg"><img src="frames/frame-04.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-05.jpg"><img src="frames/frame-05.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-06.jpg"><img src="frames/frame-06.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-07.jpg"><img src="frames/frame-07.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-08.jpg"><img src="frames/frame-08.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-09.jpg"><img src="frames/frame-09.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-10.jpg"><img src="frames/frame-10.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-11.jpg"><img src="frames/frame-11.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-12.jpg"><img src="frames/frame-12.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-13.jpg"><img src="frames/frame-13.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-14.jpg"><img src="frames/frame-14.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-15.jpg"><img src="frames/frame-15.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-16.jpg"><img src="frames/frame-16.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-17.jpg"><img src="frames/frame-17.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-18.jpg"><img src="frames/frame-18.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-19.jpg"><img src="frames/frame-19.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-20.jpg"><img src="frames/frame-20.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-21.jpg"><img src="frames/frame-21.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-22.jpg"><img src="frames/frame-22.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-23.jpg"><img src="frames/frame-23.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-24.jpg"><img src="frames/frame-24.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-25.jpg"><img src="frames/frame-25.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-26.jpg"><img src="frames/frame-26.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-27.jpg"><img src="frames/frame-27.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
+        <div class="fm-frame" data-full="frames/frame-28.jpg"><img src="frames/frame-28.jpg" alt="Selected frame" onerror="this.parentNode.style.display='none'"></div>
       </div>
     </div>
 
@@ -952,29 +1271,26 @@
         <!-- 1 · 18Birdies -->
         <div class="card" data-vimeo="" data-cat="sport brand" data-client="18Birdies">
           <div class="card-thumb">
-            <div class="card-placeholder pal-18birdies">
+            <img class="card-img" src="18birdies.jpg" alt="18Birdies" onerror="this.style.display='none';this.parentNode.classList.add('pal-18birdies')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">18Birdies</span><span class="card-type">Brand Film · Sport</span></div>
         </div>
 
-        <!-- 2 · Planet DDS -->
-        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Planet DDS">
+        <!-- 2 · Denticon -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Denticon">
           <div class="card-thumb">
-            <div class="card-placeholder pal-planetdds">
+            <img class="card-img" src="planet-dds.jpg" alt="Denticon" onerror="this.style.display='none';this.parentNode.classList.add('pal-planetdds')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
-          <div class="card-label"><span class="card-client">Planet DDS</span><span class="card-type">Commercial</span></div>
+          <div class="card-label"><span class="card-client">Denticon</span><span class="card-type">Healthcare · Commercial</span></div>
         </div>
 
         <!-- 3 · Yuengling I -->
         <div class="card" data-vimeo="" data-cat="commercial lifestyle" data-client="Yuengling">
           <div class="card-thumb">
-            <div class="card-placeholder pal-yuengling1">
+            <img class="card-img" src="yuengling-1.jpg" alt="Yuengling" onerror="this.style.display='none';this.parentNode.classList.add('pal-yuengling1')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Commercial · Vol. I</span></div>
         </div>
@@ -982,9 +1298,8 @@
         <!-- 4 · Yuengling II -->
         <div class="card" data-vimeo="" data-cat="commercial lifestyle" data-client="Yuengling">
           <div class="card-thumb">
-            <div class="card-placeholder pal-yuengling2">
+            <img class="card-img" src="yuengling-2.jpg" alt="Yuengling" onerror="this.style.display='none';this.parentNode.classList.add('pal-yuengling2')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Commercial · Vol. II</span></div>
         </div>
@@ -992,9 +1307,8 @@
         <!-- 5 · Yuengling III -->
         <div class="card" data-vimeo="" data-cat="commercial lifestyle" data-client="Yuengling">
           <div class="card-thumb">
-            <div class="card-placeholder pal-yuengling3">
+            <img class="card-img" src="yuengling-3.jpg" alt="Yuengling" onerror="this.style.display='none';this.parentNode.classList.add('pal-yuengling3')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Commercial · Vol. III</span></div>
         </div>
@@ -1002,9 +1316,8 @@
         <!-- 6 · IZOD -->
         <div class="card" data-vimeo="" data-cat="commercial lifestyle brand" data-client="IZOD">
           <div class="card-thumb">
-            <div class="card-placeholder pal-izod">
+            <img class="card-img" src="izod.jpg" alt="IZOD" onerror="this.style.display='none';this.parentNode.classList.add('pal-izod')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">IZOD</span><span class="card-type">Brand · Lifestyle</span></div>
         </div>
@@ -1012,9 +1325,8 @@
         <!-- 7 · Kapitus -->
         <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Kapitus">
           <div class="card-thumb">
-            <div class="card-placeholder pal-kapitus">
+            <img class="card-img" src="kapitus.jpg" alt="Kapitus" onerror="this.style.display='none';this.parentNode.classList.add('pal-kapitus')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Kapitus</span><span class="card-type">Brand Film</span></div>
         </div>
@@ -1022,9 +1334,8 @@
         <!-- 8 · GolfJoy -->
         <div class="card" data-vimeo="" data-cat="sport lifestyle" data-client="GolfJoy">
           <div class="card-thumb">
-            <div class="card-placeholder pal-golfjoy">
+            <img class="card-img" src="golfjoy.jpg" alt="GolfJoy" onerror="this.style.display='none';this.parentNode.classList.add('pal-golfjoy')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">GolfJoy</span><span class="card-type">Sport · Lifestyle</span></div>
         </div>
@@ -1032,9 +1343,8 @@
         <!-- 9 · Visit Fresno -->
         <div class="card" data-vimeo="" data-cat="brand lifestyle" data-client="Visit Fresno">
           <div class="card-thumb">
-            <div class="card-placeholder pal-fresno">
+            <img class="card-img" src="visit-fresno.jpg" alt="Visit Fresno" onerror="this.style.display='none';this.parentNode.classList.add('pal-fresno')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Visit Fresno</span><span class="card-type">Tourism · Brand Film</span></div>
         </div>
@@ -1042,9 +1352,8 @@
         <!-- 10 · Amplify Life -->
         <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Amplify Life Insurance">
           <div class="card-thumb">
-            <div class="card-placeholder pal-amplify">
+            <img class="card-img" src="amplify-life.jpg" alt="Amplify Life Insurance" onerror="this.style.display='none';this.parentNode.classList.add('pal-amplify')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Amplify Life Insurance</span><span class="card-type">Commercial</span></div>
         </div>
@@ -1052,9 +1361,8 @@
         <!-- 11 · Nreal -->
         <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Nreal">
           <div class="card-thumb">
-            <div class="card-placeholder pal-nreal">
+            <img class="card-img" src="nreal.jpg" alt="Nreal" onerror="this.style.display='none';this.parentNode.classList.add('pal-nreal')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Nreal</span><span class="card-type">Tech · Commercial</span></div>
         </div>
@@ -1062,9 +1370,8 @@
         <!-- 12 · Homebound -->
         <div class="card" data-vimeo="" data-cat="brand lifestyle" data-client="Homebound">
           <div class="card-thumb">
-            <div class="card-placeholder pal-homebound">
+            <img class="card-img" src="homebound.jpg" alt="Homebound" onerror="this.style.display='none';this.parentNode.classList.add('pal-homebound')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Homebound</span><span class="card-type">Brand Film</span></div>
         </div>
@@ -1072,9 +1379,8 @@
         <!-- 13 · N2 -->
         <div class="card" data-vimeo="" data-cat="commercial brand" data-client="N2">
           <div class="card-thumb">
-            <div class="card-placeholder pal-n2">
+            <img class="card-img" src="n2.jpg" alt="N2" onerror="this.style.display='none';this.parentNode.classList.add('pal-n2')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">N2</span><span class="card-type">Commercial</span></div>
         </div>
@@ -1082,11 +1388,127 @@
         <!-- 14 · Billups -->
         <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Billups">
           <div class="card-thumb">
-            <div class="card-placeholder pal-billups">
+            <img class="card-img" src="billups.jpg" alt="Billups" onerror="this.style.display='none';this.parentNode.classList.add('pal-billups')">
               <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
-            </div>
           </div>
           <div class="card-label"><span class="card-client">Billups</span><span class="card-type">Brand · Commercial</span></div>
+        </div>
+
+        <!-- 15 · TopGolf -->
+        <div class="card" data-vimeo="1191217416" data-cat="sport lifestyle brand" data-client="TopGolf">
+          <div class="card-thumb">
+            <img class="card-img" src="topgolf.jpg" alt="TopGolf" onerror="this.style.display='none';this.parentNode.classList.add('pal-topgolf')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">TopGolf</span><span class="card-type">Sport · Brand Film</span></div>
+        </div>
+
+        <!-- 16 · Social Changery PSA -->
+        <div class="card" data-vimeo="1191222463" data-cat="brand lifestyle" data-client="Social Changery">
+          <div class="card-thumb">
+            <img class="card-img" src="social-changery.jpg" alt="Social Changery PSA" onerror="this.style.display='none';this.parentNode.classList.add('pal-changery')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Social Changery</span><span class="card-type">PSA · Brand Film</span></div>
+        </div>
+
+        <!-- 17 · Winpak Industrial -->
+        <div class="card" data-vimeo="1190571649" data-cat="commercial brand" data-client="Winpak Industrial">
+          <div class="card-thumb">
+            <img class="card-img" src="winpak.jpg" alt="Winpak Industrial" onerror="this.style.display='none';this.parentNode.classList.add('pal-winpak')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Winpak Industrial</span><span class="card-type">Industrial · Commercial</span></div>
+        </div>
+
+        <!-- 18 · DataAnnotated / Surge AI -->
+        <div class="card" data-vimeo="1205673768" data-cat="commercial brand" data-client="Surge AI">
+          <div class="card-thumb">
+            <img class="card-img" src="surge-ai.jpg" alt="Surge AI Brand Video" onerror="this.style.display='none';this.parentNode.classList.add('pal-surge')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Surge AI</span><span class="card-type">Tech · Brand Film</span></div>
+        </div>
+
+        <!-- 19 · Hartbeat Media -->
+        <div class="card" data-vimeo="1191217415" data-cat="brand lifestyle" data-client="Hartbeat Media">
+          <div class="card-thumb">
+            <img class="card-img" src="hartbeat.jpg" alt="Hartbeat Media" onerror="this.style.display='none';this.parentNode.classList.add('pal-hartbeat')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Hartbeat Media</span><span class="card-type">Brand Film</span></div>
+        </div>
+
+        <!-- 20 · Hall and Hall — Montana -->
+        <div class="card" data-vimeo="1163462357" data-cat="brand lifestyle" data-client="Hall and Hall">
+          <div class="card-thumb">
+            <img class="card-img" src="hall-and-hall.jpg" alt="Hall and Hall — Montana" onerror="this.style.display='none';this.parentNode.classList.add('pal-hallhall')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Hall and Hall</span><span class="card-type">Montana · Brand Film</span></div>
+        </div>
+
+        <!-- 21 · Yuengling Brand Ambassadors Sizzle -->
+        <div class="card" data-vimeo="1114379409" data-cat="commercial lifestyle brand" data-client="Yuengling">
+          <div class="card-thumb">
+            <img class="card-img" src="yuengling-ambassadors.jpg" alt="Yuengling Brand Ambassadors Sizzle" onerror="this.style.display='none';this.parentNode.classList.add('pal-yueng-amb')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Yuengling</span><span class="card-type">Brand Ambassadors · Sizzle</span></div>
+        </div>
+
+        <!-- 22 · Lifehouse Hotels -->
+        <div class="card" data-vimeo="1190569681" data-cat="brand lifestyle" data-client="Lifehouse Hotels">
+          <div class="card-thumb">
+            <img class="card-img" src="lifehouse.jpg" alt="Lifehouse Hotels" onerror="this.style.display='none';this.parentNode.classList.add('pal-lifehouse')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Lifehouse Hotels</span><span class="card-type">Hospitality · Brand Film</span></div>
+        </div>
+
+        <!-- 23 · ClickFunnels -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="ClickFunnels">
+          <div class="card-thumb">
+            <img class="card-img" src="clickfunnels.jpg" alt="ClickFunnels" onerror="this.style.display='none';this.parentNode.classList.add('pal-clickfunnels')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">ClickFunnels</span><span class="card-type">Brand Film</span></div>
+        </div>
+
+        <!-- 24 · Meliá Cozumel -->
+        <div class="card" data-vimeo="" data-cat="brand lifestyle" data-client="Meliá Cozumel">
+          <div class="card-thumb">
+            <img class="card-img" src="melia.jpg" alt="Meliá Cozumel" onerror="this.style.display='none';this.parentNode.classList.add('pal-melia')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Meliá Cozumel</span><span class="card-type">Hospitality · Brand Film</span></div>
+        </div>
+
+        <!-- 25 · Namely -->
+        <div class="card" data-vimeo="" data-cat="commercial brand" data-client="Namely">
+          <div class="card-thumb">
+            <img class="card-img" src="namely.jpg" alt="Namely" onerror="this.style.display='none';this.parentNode.classList.add('pal-namely')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Namely</span><span class="card-type">Brand Film</span></div>
+        </div>
+
+        <!-- 26 · The Range -->
+        <div class="card" data-vimeo="" data-cat="sport lifestyle" data-client="The Range">
+          <div class="card-thumb">
+            <img class="card-img" src="the-range.jpg" alt="The Range" onerror="this.style.display='none';this.parentNode.classList.add('pal-range')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">The Range</span><span class="card-type">Sport · Lifestyle</span></div>
+        </div>
+
+        <!-- 27 · Potent Hockey -->
+        <div class="card" data-vimeo="" data-cat="sport brand" data-client="Potent Hockey">
+          <div class="card-thumb">
+            <img class="card-img" src="potent-hockey.jpg" alt="Potent Hockey" onerror="this.style.display='none';this.parentNode.classList.add('pal-potent')">
+            <div class="card-overlay"><div class="card-play"><svg width="13" height="13" viewBox="0 0 13 13" fill="white"><polygon points="3,1 12,6.5 3,12"/></svg></div></div>
+          </div>
+          <div class="card-label"><span class="card-client">Potent Hockey</span><span class="card-type">Sport · Brand Film</span></div>
         </div>
 
       </div>
@@ -1135,7 +1557,7 @@
         <p class="discipline-label">Clients Include</p>
         <div class="client-grid">
           <div class="client-item">18Birdies</div>
-          <div class="client-item">Planet DDS</div>
+          <div class="client-item">Denticon</div>
           <div class="client-item">Yuengling</div>
           <div class="client-item">IZOD</div>
           <div class="client-item">Kapitus</div>
@@ -1146,6 +1568,17 @@
           <div class="client-item">Homebound</div>
           <div class="client-item">N2</div>
           <div class="client-item">Billups</div>
+          <div class="client-item">TopGolf</div>
+          <div class="client-item">Hartbeat Media</div>
+          <div class="client-item">Hall and Hall</div>
+          <div class="client-item">Winpak</div>
+          <div class="client-item">Surge AI</div>
+          <div class="client-item">Lifehouse Hotels</div>
+          <div class="client-item">ClickFunnels</div>
+          <div class="client-item">Meliá Cozumel</div>
+          <div class="client-item">Namely</div>
+          <div class="client-item">The Range</div>
+          <div class="client-item">Potent Hockey</div>
         </div>
       </div>
     </div>
@@ -1200,6 +1633,16 @@
         </div>
       </div>
     </div>
+  </div>
+
+
+  <!-- ══════ FRAMES LIGHTBOX ══════ -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" onclick="closeLightbox()">✕ Close</button>
+    <button class="lb-arrow lb-prev" onclick="lbStep(-1)">‹</button>
+    <img id="lb-img" src="" alt="Selected frame enlarged">
+    <button class="lb-arrow lb-next" onclick="lbStep(1)">›</button>
+    <div class="lb-counter" id="lb-counter"></div>
   </div>
 
 
@@ -1278,6 +1721,75 @@
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── FRAMES LIGHTBOX ──
+    let lbFrames = [], lbIndex = 0;
+    function buildFrameList() {
+      // Unique frame sources from the marquee (skip duplicate loop set + hidden/missing)
+      const seen = new Set();
+      lbFrames = [];
+      document.querySelectorAll('.fm-frame').forEach(f => {
+        if (f.style.display === 'none') return;
+        const src = f.getAttribute('data-full');
+        if (!seen.has(src)) { seen.add(src); lbFrames.push(src); }
+      });
+    }
+    function openLightbox(src) {
+      buildFrameList();
+      lbIndex = Math.max(0, lbFrames.indexOf(src));
+      renderLb();
+      const lb = document.getElementById('lightbox');
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function renderLb() {
+      if (!lbFrames.length) return;
+      document.getElementById('lb-img').src = lbFrames[lbIndex];
+      document.getElementById('lb-counter').textContent = (lbIndex + 1) + ' / ' + lbFrames.length;
+    }
+    function lbStep(dir) {
+      if (!lbFrames.length) return;
+      lbIndex = (lbIndex + dir + lbFrames.length) % lbFrames.length;
+      renderLb();
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.fm-frame').forEach(f => {
+      f.addEventListener('click', () => {
+        if (f.style.display !== 'none') openLightbox(f.getAttribute('data-full'));
+      });
+    });
+
+    // ── SIDE STRIP PARALLAX ──
+    (function () {
+      const left = document.getElementById('strip-left');
+      const right = document.getElementById('strip-right');
+      if (!left || !right) return;
+      let ticking = false;
+      function update() {
+        const y = window.scrollY || window.pageYOffset;
+        // Strips drift in opposite directions, slower than the page (parallax)
+        left.style.transform  = 'translateY(' + (-y * 0.18) + 'px)';
+        right.style.transform = 'translateY(' + (-y * 0.30 - 120) + 'px)';
+        ticking = false;
+      }
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+      update();
+    })();
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target.id === 'lightbox') closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lbStep(-1);
+      if (e.key === 'ArrowRight') lbStep(1);
+    });
   </script>
 
 </body>
