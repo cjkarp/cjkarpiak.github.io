@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CJ Karpiak — Writer &amp; Creative Producer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Archivo+Expanded:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #0c0c0d;
+      --ink-2: #141416;
+      --paper: #f3f0e9;
+      --paper-dim: #a8a49b;
+      --muted: #6d6a63;
+      --line: rgba(243,240,233,0.14);
+      --line-dark: rgba(243,240,233,0.08);
+      --sans: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --exp: 'Archivo Expanded', 'Archivo', sans-serif;
+      --nav-h: 66px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--ink);
+      color: var(--paper);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      letter-spacing: -0.005em;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; animation: fade 0.5s ease; }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+    ::selection { background: var(--paper); color: var(--ink); }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 300;
+      height: var(--nav-h);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 32px;
+      background: rgba(12,12,13,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .nav-logo {
+      font-family: var(--exp);
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: 0.01em;
+      color: var(--paper);
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 6px; list-style: none; align-items: center; }
+    .nav-links button {
+      background: none;
+      border: none;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--paper-dim);
+      cursor: pointer;
+      padding: 8px 14px;
+      transition: color 0.2s;
+    }
+    .nav-links button:hover, .nav-links button.active { color: var(--paper); }
+    .nav-cta {
+      border: 1px solid var(--line) !important;
+      padding: 8px 16px !important;
+    }
+    .nav-cta:hover { background: var(--paper) !important; color: var(--ink) !important; }
+
+    /* ══ HERO — full-bleed autoplay video ══ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 620px;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-media { position: absolute; inset: 0; z-index: 0; background: var(--ink-2); }
+    .hero-media video,
+    .hero-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+    .hero-media::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(12,12,13,0.5) 0%, rgba(12,12,13,0.1) 35%, rgba(12,12,13,0.15) 60%, rgba(12,12,13,0.92) 100%);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 32px 60px;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--paper);
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: var(--exp);
+      font-weight: 700;
+      font-size: clamp(2.8rem, 9vw, 8rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--paper);
+      margin-bottom: 26px;
+      max-width: 15ch;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--paper);
+      opacity: 0.72;
+      max-width: 44ch;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 26px; right: 32px;
+      z-index: 2;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--paper);
+      opacity: 0.5;
+    }
+    /* mute/sound toggle for hero video */
+    .hero-mute {
+      position: absolute;
+      bottom: 26px; left: 32px;
+      z-index: 3;
+      background: rgba(12,12,13,0.5);
+      border: 1px solid var(--line);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s;
+    }
+    .hero-mute:hover { background: rgba(12,12,13,0.8); }
+
+    /* ══ FEATURED REEL ══ */
+    .reel {
+      padding: 84px 32px 20px;
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .reel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+    .reel-label {
+      font-family: var(--exp);
+      font-weight: 600;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .reel-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--paper-dim);
+    }
+    .reel-frame {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: var(--ink-2);
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid var(--line-dark);
+    }
+    .reel-frame video,
+    .reel-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.4s, transform 0.9s cubic-bezier(0.22,0.61,0.36,1);
+      filter: brightness(0.72);
+    }
+    .reel-frame:hover video,
+    .reel-frame:hover img { filter: brightness(0.5); transform: scale(1.02); }
+    .reel-play {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      pointer-events: none;
+    }
+    .reel-play-btn {
+      width: 84px; height: 84px;
+      border: 1.5px solid var(--paper);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .reel-frame:hover .reel-play-btn { background: var(--paper); transform: scale(1.06); }
+    .reel-play-btn svg { fill: var(--paper); transition: fill 0.3s; margin-left: 4px; }
+    .reel-frame:hover .reel-play-btn svg { fill: var(--ink); }
+    .reel-play-text {
+      font-family: var(--exp);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--paper);
+    }
+    .reel-frame::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, rgba(12,12,13,0.5), rgba(12,12,13,0.05) 50%, rgba(12,12,13,0.2));
+    }
+
+    /* ══ SECTION HEADS ══ */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      padding: 64px 32px 26px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .section-label {
+      font-family: var(--exp);
+      font-weight: 600;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    /* ══ FILTERS ══ */
+    .filter-tabs { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
+    .filter-tabs button {
+      background: none;
+      border: 1px solid var(--line-dark);
+      color: var(--paper-dim);
+      font-family: var(--sans);
+      font-size: 0.64rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-tabs button:hover { border-color: var(--line); color: var(--paper); }
+    .filter-tabs button.active { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+
+    /* ══ GRID ══ */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--line-dark);
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--ink-2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .card.hidden { display: none; }
+
+    .card-thumb { position: relative; aspect-ratio: 16/9; overflow: hidden; }
+    .card-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.9s cubic-bezier(0.22,0.61,0.36,1), filter 0.5s;
+      filter: brightness(0.82);
+    }
+    .card:hover .card-img { transform: scale(1.04); filter: brightness(0.6); }
+    .card-placeholder {
+      width: 100%; height: 100%;
+      transition: transform 0.9s cubic-bezier(0.22,0.61,0.36,1);
+    }
+    .card:hover .card-placeholder { transform: scale(1.04); }
+
+    .pal-a { background: linear-gradient(150deg,#1c2416 0%,#2a3420 100%); }
+    .pal-b { background: linear-gradient(150deg,#161f2a 0%,#20303f 100%); }
+    .pal-c { background: linear-gradient(150deg,#2a1c12 0%,#3a2818 100%); }
+    .pal-d { background: linear-gradient(150deg,#181f26 0%,#24303a 100%); }
+    .pal-e { background: linear-gradient(150deg,#221a10 0%,#322818 100%); }
+    .pal-f { background: linear-gradient(150deg,#1a1622 0%,#282034 100%); }
+    .pal-g { background: linear-gradient(150deg,#1a1a1c 0%,#28282c 100%); }
+    .pal-h { background: linear-gradient(150deg,#101c1c 0%,#1a2c2c 100%); }
+
+    .card-shade {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(12,12,13,0.85) 0%, rgba(12,12,13,0.1) 45%, rgba(12,12,13,0) 70%);
+      z-index: 1;
+    }
+    .card-meta {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      z-index: 2;
+      padding: 26px 26px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .card-name {
+      font-family: var(--exp);
+      font-weight: 600;
+      font-size: clamp(1.3rem, 2.4vw, 2rem);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--paper);
+    }
+    .card-info {
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--paper);
+      opacity: 0.65;
+    }
+    .card-role {
+      position: absolute;
+      top: 22px; left: 26px;
+      z-index: 2;
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--paper);
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .card:hover .card-role { opacity: 0.9; transform: translateY(0); }
+
+    /* ══ ABOUT ══ */
+    #page-about { min-height: 100vh; padding-top: var(--nav-h); }
+    .about-split { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - var(--nav-h)); }
+    .about-media { position: relative; overflow: hidden; background: var(--ink-2); }
+    .about-media img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      filter: brightness(0.9);
+    }
+    .about-left { padding: 72px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .about-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 24px; }
+    .about-name {
+      font-family: var(--exp);
+      font-weight: 700;
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+    .about-bio { font-size: 1rem; line-height: 1.75; color: var(--paper); opacity: 0.78; font-weight: 400; margin-bottom: 26px; max-width: 52ch; }
+    .about-bio strong { font-weight: 600; opacity: 1; }
+    .about-bio em { font-style: italic; }
+    .meta-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 16px; margin-top: 14px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 34px; }
+    .pill { border: 1px solid var(--line-dark); padding: 7px 13px; font-size: 0.66rem; letter-spacing: 0.04em; color: var(--paper); opacity: 0.72; }
+    .client-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-dark); border: 1px solid var(--line-dark); }
+    .client-item { padding: 15px 8px; background: var(--ink); font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper-dim); text-align: center; transition: color 0.2s, background 0.2s; }
+    .client-item:hover { color: var(--paper); background: var(--ink-2); }
+
+    /* ══ CONTACT ══ */
+    #page-contact { min-height: 100vh; padding-top: var(--nav-h); display: flex; flex-direction: column; justify-content: center; }
+    .contact-wrap { padding: 90px 32px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+    .contact-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 24px; }
+    .contact-title {
+      font-family: var(--exp);
+      font-weight: 700;
+      font-size: clamp(2.6rem, 6vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .contact-blurb { font-size: 1.05rem; line-height: 1.7; color: var(--paper); opacity: 0.78; max-width: 42ch; margin-bottom: 34px; }
+    .contact-email {
+      font-family: var(--exp);
+      font-weight: 600;
+      font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-decoration: none;
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 6px;
+      display: inline-block;
+      transition: border-color 0.2s;
+    }
+    .contact-email:hover { border-color: var(--paper); }
+    .contact-social { border-top: 1px solid var(--line-dark); }
+    .social-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line-dark);
+      text-decoration: none;
+      color: var(--paper);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      transition: opacity 0.2s, padding-left 0.2s;
+    }
+    .social-link:hover { opacity: 1; padding-left: 8px; }
+
+    /* ══ MODAL ══ */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(6,6,7,0.96);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-inner { width: 90vw; max-width: 1200px; }
+    .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .modal-label { font-family: var(--exp); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--paper); }
+    .modal-close {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 0.64rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--paper); color: var(--ink); }
+    .modal-video { position: relative; aspect-ratio: 16/9; background: #000; }
+    .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .modal-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .modal-ph p { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-dim); text-align: center; line-height: 1.9; }
+
+    /* ══ FOOTER ══ */
+    footer {
+      border-top: 1px solid var(--line-dark);
+      padding: 30px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    footer p { font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--paper-dim); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .hero-inner { padding: 0 20px 44px; }
+      .hero-mute { left: 20px; }
+      .hero-scroll { right: 20px; }
+      .reel { padding: 60px 20px 16px; }
+      .section-head { padding: 48px 20px 22px; }
+      .grid { grid-template-columns: 1fr; }
+      .about-split { grid-template-columns: 1fr; }
+      .about-media { height: 60vw; min-height: 280px; order: -1; }
+      .about-left { padding: 48px 20px; }
+      .contact-wrap { grid-template-columns: 1fr; padding: 60px 20px; gap: 44px; }
+      .client-grid { grid-template-columns: repeat(2,1fr); }
+      footer { padding: 24px 20px; }
+      .reel-play-btn { width: 64px; height: 64px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .card { opacity: 1; transform: none; }
+      .hero-media video { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo" onclick="showPage('home')">CJ Karpiak</span>
+    <ul class="nav-links">
+      <li><button onclick="showPage('home')" id="nav-home" class="active">Work</button></li>
+      <li><button onclick="showPage('about')" id="nav-about">About</button></li>
+      <li><button onclick="showPage('contact')" id="nav-contact" class="nav-cta">Contact</button></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE: WORK -->
+  <div id="page-home" class="page active">
+
+    <header class="hero">
+      <div class="hero-media">
+        <!-- AUTOPLAY HERO VIDEO — replace hero.mp4 with your file; poster shows before/if video fails -->
+        <video id="hero-video" autoplay muted loop playsinline poster="Nreal%202.jpg">
+          <source src="hero.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="hero-inner">
+        <p class="hero-eyebrow">CJ Karpiak — Los Angeles</p>
+        <h1 class="hero-title">Stories worth watching</h1>
+        <p class="hero-sub">Writer and creative producer. I work in performance, pacing, and the moments that make people lean in.</p>
+      </div>
+      <button class="hero-mute" id="hero-mute" onclick="toggleHeroSound()">Sound On</button>
+      <span class="hero-scroll">Scroll</span>
+    </header>
+
+    <!-- FEATURED REEL -->
+    <section class="reel">
+      <div class="reel-head">
+        <span class="reel-label">Showreel</span>
+        <span class="reel-tag">2026 · 90 sec</span>
+      </div>
+      <div class="reel-frame" onclick="openReel()">
+        <!-- Poster frame for the reel — swap reel-poster.jpg for a strong still from your reel -->
+        <img src="Nreal%202.jpg" alt="Showreel" />
+        <div class="reel-play">
+          <div class="reel-play-btn">
+            <svg width="26" height="26" viewBox="0 0 26 26"><polygon points="7,4 22,13 7,22"/></svg>
+          </div>
+          <span class="reel-play-text">Watch the Reel</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <span class="section-label">Selected Work</span>
+      <ul class="filter-tabs">
+        <li><button class="active" data-filter="all">All</button></li>
+        <li><button data-filter="sport">Sports</button></li>
+        <li><button data-filter="dialogue">Dialogue</button></li>
+        <li><button data-filter="brand">Brand</button></li>
+        <li><button data-filter="commercial">Commercial</button></li>
+      </ul>
+    </div>
+
+    <div class="grid" id="grid">
+        <div class="card" data-vimeo="1183119023" data-cat="sport brand dialogue" data-client="18Birdies — Golf is Hard">
+          <div class="card-thumb">
+            <img class="card-img" src="18birdies.jpg" alt="18Birdies" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">18Birdies</span>
+              <span class="card-info">Golf is Hard — Brand · Sport</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1191214124" data-cat="sport brand" data-client="18Birdies — Play More Golf">
+          <div class="card-thumb">
+            <img class="card-img" src="18Birdies%202.jpg" alt="18Birdies" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">18Birdies</span>
+              <span class="card-info">Brand · Sport</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1191217416" data-cat="sport brand" data-client="TopGolf — Brand Spot">
+          <div class="card-thumb">
+            <img class="card-img" src="frame-28.jpg" alt="TopGolf" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">TopGolf</span>
+              <span class="card-info">Brand · Sport</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1223450659" data-cat="commercial dialogue brand" data-client="Drew Barrymore — Scripted">
+          <div class="card-thumb">
+            <img class="card-img" src="Yogibo%20Drew.jpg" alt="Drew Barrymore" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Drew Barrymore</span>
+              <span class="card-info">Scripted · Dialogue</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1223450658" data-cat="brand dialogue" data-client="Drew Brees — Elevated Doc">
+          <div class="card-thumb">
+            <img class="card-img" src="MIssion%20Drew%20Brees%20(3).jpg" alt="Drew Brees" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Drew Brees</span>
+              <span class="card-info">Doc-style · Feature</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1223441833" data-cat="sport brand commercial" data-client="Stella Artois — Event Recap">
+          <div class="card-thumb">
+            <img class="card-img" src="Stella%20NFL.jpg" alt="Stella Artois" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Stella Artois</span>
+              <span class="card-info">Event Recap · Brand</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1223442226" data-cat="sport brand commercial" data-client="ESPN Bets — Event Recap">
+          <div class="card-thumb">
+            <img class="card-img" src="ESPN%20(5).jpg" alt="ESPN Bets" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">ESPN Bets</span>
+              <span class="card-info">Event Recap · Brand</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1114379409" data-cat="sport brand" data-client="Yuengling Flight — Next Generation of Light Beer">
+          <div class="card-thumb">
+            <img class="card-img" src="Yuengling%20Flight%20Cooler.png" alt="Yuengling Flight" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Yuengling Flight</span>
+              <span class="card-info">Product · Sport</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1114376612" data-cat="brand" data-client="Yuengling — Traditional Lager">
+          <div class="card-thumb">
+            <img class="card-img" src="yuengling-1.jpg" alt="Yuengling" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Yuengling</span>
+              <span class="card-info">Traditional Lager</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="990709746" data-cat="sport commercial" data-client="Potent Hockey — Product Video">
+          <div class="card-thumb">
+            <img class="card-img" src="potent-hockey.jpg" alt="Potent Hockey" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Potent Hockey</span>
+              <span class="card-info">Product · Sport</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1114375004" data-cat="sport brand" data-client="GolfJoy — Brand Video">
+          <div class="card-thumb">
+            <img class="card-img" src="golfjoy.jpg" alt="GolfJoy" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">GolfJoy</span>
+              <span class="card-info">Brand · Sport</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1183127883" data-cat="commercial brand dialogue" data-client="Denticon — Closet vs Cloud">
+          <div class="card-thumb">
+            <img class="card-img" src="Denticon%20Nurse.jpg" alt="Denticon" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Denticon</span>
+              <span class="card-info">Closet vs Cloud — Dialogue</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1183124212" data-cat="commercial brand dialogue" data-client="Denticon — Secret Agents">
+          <div class="card-thumb">
+            <img class="card-img" src="Denticon%20Doctor.jpg" alt="Denticon" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Denticon</span>
+              <span class="card-info">Secret Agents — Dialogue</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1183120845" data-cat="commercial brand dialogue" data-client="Denticon — Support Group">
+          <div class="card-thumb">
+            <img class="card-img" src="Denticon.jpg" alt="Denticon" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Denticon</span>
+              <span class="card-info">Support Group — Dialogue</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1163459941" data-cat="commercial brand dialogue" data-client="Amplify Life Insurance">
+          <div class="card-thumb">
+            <img class="card-img" src="amplify%20with%20logo.jpg" alt="Amplify Life Insurance" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Amplify Life Insurance</span>
+              <span class="card-info">Insurance · Dialogue</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190574160" data-cat="commercial dialogue brand" data-client="Adeedo — Scripted Spot">
+          <div class="card-thumb">
+            <img class="card-img" src="Adeedo.jpg" alt="Adeedo" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Adeedo</span>
+              <span class="card-info">Scripted · Dialogue</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1191217415" data-cat="commercial brand dialogue" data-client="Hartbeat Media — LOL Network Promo">
+          <div class="card-thumb">
+            <img class="card-img" src="lolnetwork.jpg" alt="Hartbeat Media" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Hartbeat Media</span>
+              <span class="card-info">LOL Network Promo</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1095773033" data-cat="commercial brand" data-client="Kapitus — National Commercial 2025">
+          <div class="card-thumb">
+            <img class="card-img" src="kapitus.jpg" alt="Kapitus" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Kapitus</span>
+              <span class="card-info">National Spot — Commercial</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1156645053" data-cat="commercial brand" data-client="IZOD — Legacy">
+          <div class="card-thumb">
+            <img class="card-img" src="izod.jpg" alt="IZOD" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">IZOD</span>
+              <span class="card-info">Legacy · Product</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1193427246" data-cat="commercial brand" data-client="Data Annotated — Work That Impacts Your Future">
+          <div class="card-thumb">
+            <img class="card-img" src="surge-ai.jpg" alt="Data Annotated" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Data Annotated</span>
+              <span class="card-info">Recruitment · Brand</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="903171451" data-cat="commercial brand" data-client="ClickFunnels — Daymond John">
+          <div class="card-thumb">
+            <img class="card-img" src="clickfunnels.jpg" alt="ClickFunnels" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">ClickFunnels</span>
+              <span class="card-info">ft. Daymond John</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190556053" data-cat="brand" data-client="Melia Hotels — Location Profile">
+          <div class="card-thumb">
+            <img class="card-img" src="melia.jpg" alt="Melia Hotels" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Melia Hotels</span>
+              <span class="card-info">Location Profile</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1163462357" data-cat="brand" data-client="Hall &amp; Hall — Land &amp; Ranch Brokerage">
+          <div class="card-thumb">
+            <img class="card-img" src="thumb%20(43).jpg" alt="Hall &amp; Hall" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Hall &amp; Hall</span>
+              <span class="card-info">Brand · Doc</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190572231" data-cat="brand" data-client="Hall &amp; Hall — Brand Video">
+          <div class="card-thumb">
+            <img class="card-img" src="thumb%20(42).jpg" alt="Hall &amp; Hall" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Hall &amp; Hall</span>
+              <span class="card-info">Brand Video · Doc</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190576497" data-cat="brand" data-client="Google Interviews — GXO">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-d"></div>
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Google Interviews</span>
+              <span class="card-info">GXO · Doc</span>
+            </div>
+            <span class="card-role">Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190576119" data-cat="brand" data-client="Google Interviews — Volkswagen">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-f"></div>
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Google Interviews</span>
+              <span class="card-info">Volkswagen · Doc</span>
+            </div>
+            <span class="card-role">Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190569681" data-cat="brand" data-client="Lifehouse Hotels — Little Havana">
+          <div class="card-thumb">
+            <div class="card-placeholder pal-h"></div>
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Lifehouse Hotels</span>
+              <span class="card-info">Little Havana · Doc</span>
+            </div>
+            <span class="card-role">Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="903166986" data-cat="commercial brand" data-client="Nreal — Brand &amp; Product Explainer">
+          <div class="card-thumb">
+            <img class="card-img" src="nreal.jpg" alt="Nreal" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Nreal</span>
+              <span class="card-info">Brand · Product</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1190577668" data-cat="sport dialogue brand" data-client="The Range — Jake &amp; Blake">
+          <div class="card-thumb">
+            <img class="card-img" src="the-range.jpg" alt="The Range" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">The Range</span>
+              <span class="card-info">Jake &amp; Blake — Dialogue · Sport</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1183175882" data-cat="brand" data-client="Florida Crystals — Regenerative Organic Farming">
+          <div class="card-thumb">
+            <img class="card-img" src="florida%20crystals.jpg" alt="Florida Crystals" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Florida Crystals</span>
+              <span class="card-info">Brand · Doc</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1120218680" data-cat="commercial brand" data-client="Billups — Brand Video">
+          <div class="card-thumb">
+            <img class="card-img" src="billups.jpg" alt="Billups" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">Billups</span>
+              <span class="card-info">Brand Film</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+
+        <div class="card" data-vimeo="1217448051" data-cat="brand commercial" data-client="AC Transit — San Francisco">
+          <div class="card-thumb">
+            <img class="card-img" src="Ac%20transit.jpg" alt="AC Transit" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">AC Transit</span>
+              <span class="card-info">San Francisco · Brand</span>
+            </div>
+            <span class="card-role">Written &amp; Produced</span>
+          </div>
+        </div>
+    </div>
+
+    <footer>
+      <p>© 2026 CJ Karpiak</p>
+      <p>Los Angeles</p>
+    </footer>
+
+  </div>
+
+  <!-- PAGE: ABOUT -->
+  <div id="page-about" class="page">
+    <div class="about-split">
+      <div class="about-left">
+        <p class="about-eyebrow">About</p>
+        <h1 class="about-name">CJ Karpiak</h1>
+        <p class="about-bio">
+          Writer and creative producer in <strong>Los Angeles</strong>, working from a <strong>theater background</strong> &mdash; which means I think in <em>performance, pacing, and the quiet moments that land.</em> That instinct runs through everything: the shot that earns emotion rather than demanding it, the line that never sounds like it came out of a conference room.
+        </p>
+        <p class="about-bio">
+          I write and produce most of what I make, and direct the projects where story, vision, and cast align. I&rsquo;m at my best on <strong>sports work</strong> and anything built on <strong>real dialogue between characters worth watching</strong> &mdash; the kind of film people finish, then repeat.
+        </p>
+        <p class="meta-label">Disciplines</p>
+        <div class="pill-row">
+          <span class="pill">Writing</span>
+          <span class="pill">Creative Production</span>
+          <span class="pill">Directing</span>
+          <span class="pill">Brand Strategy</span>
+          <span class="pill">Campaign Development</span>
+          <span class="pill">Branded Content</span>
+          <span class="pill">Commercials</span>
+          <span class="pill">Doc-style</span>
+          <span class="pill">Script to Screen</span>
+        </div>
+        <p class="meta-label">Clients</p>
+        <div class="client-grid">
+          <div class="client-item">18Birdies</div>
+          <div class="client-item">The Range</div>
+          <div class="client-item">TopGolf</div>
+          <div class="client-item">Denticon</div>
+          <div class="client-item">Hartbeat Media</div>
+          <div class="client-item">Kapitus</div>
+          <div class="client-item">Yuengling</div>
+          <div class="client-item">IZOD</div>
+          <div class="client-item">Data Annotated</div>
+          <div class="client-item">ClickFunnels</div>
+          <div class="client-item">GolfJoy</div>
+          <div class="client-item">Potent Hockey</div>
+          <div class="client-item">Hall &amp; Hall</div>
+          <div class="client-item">Melia Hotels</div>
+          <div class="client-item">Nreal</div>
+          <div class="client-item">Amplify Life</div>
+        </div>
+      </div>
+      <div class="about-media">
+        <img src="cj_golfjoy.jpg" alt="CJ Karpiak" />
+      </div>
+    </div>
+    <footer>
+      <p>© 2026 CJ Karpiak</p>
+      <p>Los Angeles</p>
+    </footer>
+  </div>
+
+  <!-- PAGE: CONTACT -->
+  <div id="page-contact" class="page">
+    <div class="contact-wrap">
+      <div>
+        <p class="contact-eyebrow">Contact</p>
+        <h2 class="contact-title">Let&rsquo;s talk</h2>
+        <p class="contact-blurb">Unforgettable content, made efficiently. Collaboration welcome.</p>
+        <a href="mailto:cjkarpiak@gmail.com" class="contact-email">cjkarpiak@gmail.com</a>
+      </div>
+      <div>
+        <p class="meta-label" style="margin-top:0">Elsewhere</p>
+        <div class="contact-social">
+          <a href="https://vimeo.com/craigjamesjr" target="_blank" class="social-link">Vimeo <span>&#8599;</span></a>
+          <a href="https://www.linkedin.com/in/cj-karpiak/" target="_blank" class="social-link">LinkedIn <span>&#8599;</span></a>
+          <a href="https://www.instagram.com/cjkarp/" target="_blank" class="social-link">Instagram <span>&#8599;</span></a>
+          <a href="https://www.imdb.com/name/nm2994772/" target="_blank" class="social-link">IMDb <span>&#8599;</span></a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>© 2026 CJ Karpiak</p>
+      <p>Los Angeles</p>
+    </footer>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal" onclick="closeOverlay(event)">
+    <div class="modal-inner">
+      <div class="modal-top">
+        <span class="modal-label" id="modal-label"></span>
+        <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      </div>
+      <div class="modal-video" id="modal-video">
+        <div class="modal-ph"><p>Select a film</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // REEL VIMEO ID — paste your showreel's Vimeo ID here once it's uploaded
+    var REEL_VIMEO_ID = "";
+
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('nav-' + name);
+      if (btn) btn.classList.add('active');
+      window.scrollTo(0, 0);
+      if (name === 'home') initCards();
+    }
+
+    function initCards() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(c => c.classList.remove('visible'));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), (i % 4) * 60);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05 });
+      cards.forEach(c => obs.observe(c));
+    }
+    initCards();
+
+    // Hero video sound toggle
+    function toggleHeroSound() {
+      const v = document.getElementById('hero-video');
+      const btn = document.getElementById('hero-mute');
+      if (!v) return;
+      v.muted = !v.muted;
+      btn.textContent = v.muted ? 'Sound On' : 'Sound Off';
+      if (!v.muted) { v.play().catch(()=>{}); }
+    }
+
+    // Reel opens in the modal
+    function openReel() {
+      const inner = document.getElementById('modal-video');
+      document.getElementById('modal-label').textContent = 'Showreel — 2026';
+      inner.innerHTML = REEL_VIMEO_ID && REEL_VIMEO_ID.length > 3
+        ? `<iframe src="https://player.vimeo.com/video/${REEL_VIMEO_ID}?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+        : `<div class="modal-ph"><p>Reel coming soon</p></div>`;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.querySelectorAll('.filter-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.getAttribute('data-filter');
+        document.querySelectorAll('.card').forEach(card => {
+          card.classList.toggle('hidden', f !== 'all' && !(card.getAttribute('data-cat') || '').includes(f));
+        });
+      });
+    });
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (!card.classList.contains('hidden'))
+          openModal(card.getAttribute('data-vimeo'), card.getAttribute('data-client'));
+      });
+    });
+
+    function openModal(id, name) {
+      const inner = document.getElementById('modal-video');
+      document.getElementById('modal-label').textContent = name || '';
+      inner.innerHTML = id && id.length > 3
+        ? `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+        : `<div class="modal-ph"><p>Video coming soon<br>${name}</p></div>`;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { document.getElementById('modal-video').innerHTML = ''; }, 300);
+    }
+    function closeOverlay(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+
+</body>
+</html>
