@@ -619,6 +619,18 @@
           </div>
         </div>
 
+        <div class="card" data-vimeo="1229307322" data-cat="commercial brand dialogue" data-client="ZeroDrift — AI Compliance">
+          <div class="card-thumb">
+            <img class="card-img" src="ZeroDrift_martini.png" alt="ZeroDrift" loading="lazy">
+            <div class="card-shade"></div>
+            <div class="card-meta">
+              <span class="card-name">ZeroDrift</span>
+              <span class="card-info">AI Compliance · Brand</span>
+            </div>
+            <span class="card-role">Written, Produced &amp; Directed</span>
+          </div>
+        </div>
+
         <div class="card" data-vimeo="1223450659" data-cat="commercial dialogue brand" data-client="Drew Barrymore — Scripted">
           <div class="card-thumb">
             <img class="card-img" src="Yogibo%20Drew.jpg" alt="Drew Barrymore" loading="lazy">
@@ -1069,7 +1081,8 @@
 
   <script>
     // REEL VIMEO ID — paste your showreel's Vimeo ID here once it's uploaded
-    var REEL_VIMEO_ID = "";
+    var REEL_VIMEO_ID = "1229724726";
+    var REEL_VIMEO_HASH = "f8b6c0968e";
 
     function showPage(name) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1111,7 +1124,7 @@
       const inner = document.getElementById('modal-video');
       document.getElementById('modal-label').textContent = 'Showreel — 2026';
       inner.innerHTML = REEL_VIMEO_ID && REEL_VIMEO_ID.length > 3
-        ? `<iframe src="https://player.vimeo.com/video/${REEL_VIMEO_ID}?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+        ? `<iframe src="https://player.vimeo.com/video/${REEL_VIMEO_ID}?h=${REEL_VIMEO_HASH}&autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
         : `<div class="modal-ph"><p>Reel coming soon</p></div>`;
       document.getElementById('modal').classList.add('open');
       document.body.style.overflow = 'hidden';
