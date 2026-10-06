@@ -85,7 +85,7 @@
     }
     .nav-cta:hover { background: var(--paper) !important; color: var(--ink) !important; }
 
-    /* ══ HERO — full-bleed autoplay video ══ */
+    /* ══ HERO — A24-style rotating stills + title list ══ */
     .hero {
       position: relative;
       height: 100vh;
@@ -94,83 +94,115 @@
       overflow: hidden;
       display: flex;
       align-items: flex-end;
+      background: var(--ink);
     }
-    .hero-media { position: absolute; inset: 0; z-index: 0; background: var(--ink-2); }
-    .hero-media video,
-    .hero-media img {
+    .hero-slides { position: absolute; inset: 0; z-index: 0; }
+    .hero-slide {
+      position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center 30%;
-      display: block;
+      object-position: center 35%;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 1.1s ease, transform 6s ease-out;
     }
-    .hero-media::after {
+    .hero-slide.active { opacity: 1; transform: scale(1); }
+    .hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .hero.gl-ready .hero-canvas { opacity: 1; }
+    .hero-slides::after {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(12,12,13,0.5) 0%, rgba(12,12,13,0.1) 35%, rgba(12,12,13,0.15) 60%, rgba(12,12,13,0.92) 100%);
+      background:
+        linear-gradient(to top, rgba(12,12,13,0.88) 0%, rgba(12,12,13,0.35) 40%, rgba(12,12,13,0.1) 65%, rgba(12,12,13,0.45) 100%),
+        linear-gradient(to right, rgba(12,12,13,0.55) 0%, rgba(12,12,13,0) 55%);
+    }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
     }
     .hero-inner {
       position: relative;
       z-index: 2;
       width: 100%;
-      padding: 0 32px 60px;
+      padding: 0 32px 64px;
     }
     .hero-eyebrow {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--paper);
-      opacity: 0.8;
-      margin-bottom: 20px;
+      opacity: 0.75;
+      margin-bottom: 22px;
     }
-    .hero-title {
+    .hero-list { list-style: none; }
+    .hero-item {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-align: left;
+      color: var(--paper);
+      opacity: 0.38;
+      transition: opacity 0.35s ease;
+    }
+    .hero-item.active { opacity: 1; }
+    .hero-item:focus-visible { outline: 1px solid var(--paper); outline-offset: 4px; }
+    .hero-item-name {
       font-family: var(--exp);
       font-weight: 700;
-      font-size: clamp(2.8rem, 9vw, 8rem);
-      line-height: 0.92;
+      font-size: clamp(1.7rem, 4.6vw, 4.8rem);
+      line-height: 1.02;
       letter-spacing: -0.02em;
       text-transform: uppercase;
-      color: var(--paper);
-      margin-bottom: 26px;
-      max-width: 15ch;
     }
-    .hero-sub {
-      font-size: 1rem;
-      font-weight: 400;
-      line-height: 1.6;
-      color: var(--paper);
-      opacity: 0.72;
-      max-width: 44ch;
-    }
-    .hero-scroll {
-      position: absolute;
-      bottom: 26px; right: 32px;
-      z-index: 2;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--paper);
-      opacity: 0.5;
-    }
-    /* mute/sound toggle for hero video */
-    .hero-mute {
-      position: absolute;
-      bottom: 26px; left: 32px;
-      z-index: 3;
-      background: rgba(12,12,13,0.5);
-      border: 1px solid var(--line);
-      color: var(--paper);
+    .hero-item-label {
       font-family: var(--sans);
-      font-size: 0.6rem;
+      font-size: 0.66rem;
       font-weight: 500;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 8px 14px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: background 0.2s;
+      margin-top: 0.7em;
+      opacity: 0.85;
+      white-space: nowrap;
     }
-    .hero-mute:hover { background: rgba(12,12,13,0.8); }
+    .hero-progress {
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 2px;
+      width: 100%;
+      z-index: 3;
+      background: rgba(243,240,233,0.12);
+    }
+    .hero-progress-bar {
+      height: 100%;
+      width: 0;
+      background: var(--paper);
+      opacity: 0.8;
+    }
+    .hero-progress-bar.run { animation: heroProgress linear forwards; }
+    @keyframes heroProgress { from { width: 0; } to { width: 100%; } }
+    .hero-arrow {
+      position: absolute;
+      bottom: 30px; right: 32px;
+      z-index: 3;
+      background: none;
+      border: none;
+      color: var(--paper);
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s, transform 0.3s;
+    }
+    .hero-arrow:hover { opacity: 1; transform: translateY(4px); }
 
     /* ══ FEATURED REEL ══ */
     .reel {
@@ -503,8 +535,9 @@
     @media (max-width: 900px) {
       nav { padding: 0 20px; }
       .hero-inner { padding: 0 20px 44px; }
-      .hero-mute { left: 20px; }
-      .hero-scroll { right: 20px; }
+      .hero-arrow { right: 20px; bottom: 22px; }
+      .hero-item-label { font-size: 0.56rem; }
+      .hero-eyebrow { font-size: 0.58rem; letter-spacing: 0.12em; }
       .reel { padding: 60px 20px 16px; }
       .section-head { padding: 48px 20px 22px; }
       .grid { grid-template-columns: 1fr; }
@@ -519,7 +552,6 @@
     @media (prefers-reduced-motion: reduce) {
       * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
       .card { opacity: 1; transform: none; }
-      .hero-media video { display: none; }
     }
   </style>
 </head>
@@ -537,20 +569,44 @@
   <!-- PAGE: WORK -->
   <div id="page-home" class="page active">
 
-    <header class="hero">
-      <div class="hero-media">
-        <!-- AUTOPLAY HERO VIDEO — replace hero.mp4 with your file; poster shows before/if video fails -->
-        <video id="hero-video" autoplay muted loop playsinline poster="Nreal%202.jpg">
-          <source src="hero.mp4" type="video/mp4" />
-        </video>
+    <header class="hero" id="hero">
+      <div class="hero-slides">
+        <img class="hero-slide active" src="18birdies.jpg" alt="" />
+        <img class="hero-slide" src="Denticon.jpg" alt="" />
+        <img class="hero-slide" src="izod.jpg" alt="" />
+        <img class="hero-slide" src="kapitus.jpg" alt="" />
+        <img class="hero-slide" src="turnout%20thumb.jpg" alt="" />
+        <img class="hero-slide" src="Nreal%202.jpg" alt="" />
+        <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
       </div>
       <div class="hero-inner">
-        <p class="hero-eyebrow">CJ Karpiak — Los Angeles</p>
-        <h1 class="hero-title">Stories worth watching</h1>
-        <p class="hero-sub">Creating moments that make people lean in, look and listen to what you have to say.</p>
+        <h1 class="visually-hidden">CJ Karpiak — Writer &amp; Creative Producer</h1>
+        <p class="hero-eyebrow">Writer &amp; Creative Producer — Los Angeles</p>
+        <ul class="hero-list" id="hero-list">
+          <li><button class="hero-item active" data-index="0" data-vimeo="1183119023" data-client="18Birdies — Golf is Hard">
+            <span class="hero-item-name">18Birdies</span><span class="hero-item-label">Sport</span>
+          </button></li>
+          <li><button class="hero-item" data-index="1" data-vimeo="1183120845" data-client="Denticon — Support Group">
+            <span class="hero-item-name">Denticon</span><span class="hero-item-label">Dialogue</span>
+          </button></li>
+          <li><button class="hero-item" data-index="2" data-vimeo="1156645053" data-client="IZOD — Legacy">
+            <span class="hero-item-name">IZOD</span><span class="hero-item-label">Product</span>
+          </button></li>
+          <li><button class="hero-item" data-index="3" data-vimeo="1095773033" data-client="Kapitus — National Commercial 2025">
+            <span class="hero-item-name">Kapitus</span><span class="hero-item-label">Commercial</span>
+          </button></li>
+          <li><button class="hero-item" data-index="4" data-vimeo="1210902389" data-client="Turnout — Scripted Testimonial">
+            <span class="hero-item-name">Turnout</span><span class="hero-item-label">Scripted</span>
+          </button></li>
+          <li><button class="hero-item" data-index="5" data-vimeo="903166986" data-client="Nreal — Brand &amp; Product Explainer">
+            <span class="hero-item-name">Nreal</span><span class="hero-item-label">Product</span>
+          </button></li>
+        </ul>
       </div>
-      <button class="hero-mute" id="hero-mute" onclick="toggleHeroSound()">Sound On</button>
-      <span class="hero-scroll">Scroll</span>
+      <button class="hero-arrow" onclick="document.querySelector('.reel').scrollIntoView({behavior:'smooth'})" aria-label="Scroll to showreel">
+        <svg width="18" height="64" viewBox="0 0 18 64" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="9" y1="0" x2="9" y2="62"/><polyline points="1,54 9,62 17,54"/></svg>
+      </button>
+      <div class="hero-progress"><div class="hero-progress-bar" id="hero-progress-bar"></div></div>
     </header>
 
     <!-- FEATURED REEL -->
@@ -1067,15 +1123,231 @@
     }
     initCards();
 
-    // Hero video sound toggle
-    function toggleHeroSound() {
-      const v = document.getElementById('hero-video');
-      const btn = document.getElementById('hero-mute');
-      if (!v) return;
-      v.muted = !v.muted;
-      btn.textContent = v.muted ? 'Sound On' : 'Sound Off';
-      if (!v.muted) { v.play().catch(()=>{}); }
-    }
+    // Hero: title list drives full-screen stills with a grainy WebGL dissolve
+    (function () {
+      const hero = document.getElementById('hero');
+      const slides = Array.from(document.querySelectorAll('.hero-slide'));
+      const items = document.querySelectorAll('.hero-item');
+      const list = document.getElementById('hero-list');
+      const bar = document.getElementById('hero-progress-bar');
+      const canvas = document.getElementById('hero-canvas');
+      const INTERVAL = 5500;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const DURATION = reduceMotion ? 0 : 1100;
+      let current = 0, timer = null, paused = false;
+
+      // ---------- WebGL dissolve ----------
+      const fx = (function () {
+        const gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: false });
+        if (!gl) return null;
+
+        const vs = `attribute vec2 p; varying vec2 vUv;
+          void main(){ vUv = p * 0.5 + 0.5; gl_Position = vec4(p, 0.0, 1.0); }`;
+        const fs = `precision highp float;
+          varying vec2 vUv;
+          uniform sampler2D uFrom, uTo;
+          uniform vec4 uFromT, uToT;   // xy = scale, zw = offset (cover crop)
+          uniform vec2 uRes;
+          uniform float uProgress, uTime;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+          float noise(vec2 p){
+            vec2 i = floor(p), f = fract(p);
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+                       mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+          }
+          float fbm(vec2 p){
+            float v = 0.0, a = 0.5;
+            for (int i = 0; i < 5; i++){ v += a * noise(p); p *= 2.03; a *= 0.5; }
+            return v;
+          }
+          void main(){
+            vec4 a = texture2D(uFrom, vUv * uFromT.xy + uFromT.zw);
+            vec4 b = texture2D(uTo,   vUv * uToT.xy   + uToT.zw);
+            vec2 p = vUv * vec2(uRes.x / uRes.y, 1.0);
+            // organic blotches + per-pixel grain that flickers each frame = "fuzzy"
+            float grain = hash(floor(gl_FragCoord.xy / 1.5) + floor(uTime * 30.0));
+            float n = clamp(fbm(p * 3.2) * 0.72 + grain * 0.28, 0.0, 1.0);
+            float soft = 0.16;
+            float t = uProgress * (1.0 + 2.0 * soft) - soft;
+            float m = smoothstep(n - soft, n + soft, t);
+            vec3 col = mix(a.rgb, b.rgb, m);
+            // film-grain sparkle along the dissolving edge
+            float edge = 1.0 - abs(m * 2.0 - 1.0);
+            float g = hash(gl_FragCoord.xy + uTime * 61.0) - 0.5;
+            col += g * 0.22 * edge * step(0.001, uProgress) * step(uProgress, 0.999);
+            gl_FragColor = vec4(col, 1.0);
+          }`;
+
+        function sh(type, src){
+          const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+          if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+          return s;
+        }
+        const v = sh(gl.VERTEX_SHADER, vs), f = sh(gl.FRAGMENT_SHADER, fs);
+        if (!v || !f) return null;
+        const prog = gl.createProgram();
+        gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+        gl.useProgram(prog);
+
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(prog, 'p');
+        gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+        const U = {};
+        ['uFrom','uTo','uFromT','uToT','uRes','uProgress','uTime'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
+        gl.uniform1i(U.uFrom, 0);
+        gl.uniform1i(U.uTo, 1);
+
+        function makeTex(){
+          const t = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, t);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          return t;
+        }
+
+        // image textures (null until loaded)
+        const imgs = slides.map(() => ({ tex: null, w: 1, h: 1 }));
+        // ping-pong snapshot targets, used when a new hover interrupts a dissolve
+        const snaps = [0, 1].map(() => {
+          const tex = makeTex(); const fb = gl.createFramebuffer();
+          return { tex, fb, w: 1, h: 1, snap: true };
+        });
+        let snapNext = 0;
+        let from = null, to = null, progress = 1, startT = 0, animating = false, ready = false;
+
+        function cover(src){
+          if (src.snap) return [1, 1, 0, 0];
+          const cA = canvas.width / canvas.height, iA = src.w / src.h;
+          if (iA > cA) { const sx = cA / iA; return [sx, 1, (1 - sx) * 0.5, 0]; }
+          const sy = iA / cA; return [1, sy, 0, (1 - sy) * 0.65];   // ~ object-position center 35%
+        }
+
+        function draw(now){
+          if (!from || !to) return;
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, from.tex);
+          gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, to.tex);
+          gl.uniform4fv(U.uFromT, cover(from));
+          gl.uniform4fv(U.uToT, cover(to));
+          gl.uniform2f(U.uRes, canvas.width, canvas.height);
+          gl.uniform1f(U.uProgress, progress);
+          gl.uniform1f(U.uTime, (now || performance.now()) / 1000);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        }
+
+        function sizeSnaps(){
+          snaps.forEach(s => {
+            gl.bindTexture(gl.TEXTURE_2D, s.tex);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, s.fb);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, s.tex, 0);
+          });
+          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        }
+
+        function resize(){
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          const w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
+          if (w === canvas.width && h === canvas.height) return;
+          canvas.width = w; canvas.height = h;
+          if (animating) { animating = false; from = to; progress = 1; }   // settle before reallocating
+          sizeSnaps();
+          draw();
+        }
+
+        function snapshot(){
+          const s = snaps[snapNext]; snapNext ^= 1;
+          gl.bindFramebuffer(gl.FRAMEBUFFER, s.fb);
+          draw();
+          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+          return s;
+        }
+
+        function loop(now){
+          if (!animating) return;
+          progress = DURATION ? Math.min(1, (now - startT) / DURATION) : 1;
+          draw(now);
+          if (progress >= 1) { animating = false; from = to; }
+          else requestAnimationFrame(loop);
+        }
+
+        function go(i){
+          const target = imgs[i];
+          if (!ready || !target.tex || target === to) return false;
+          from = animating ? snapshot() : to;
+          to = target; progress = 0; startT = performance.now(); animating = true;
+          requestAnimationFrame(loop);
+          return true;
+        }
+
+        // load textures from the same files as the fallback <img> slides
+        slides.forEach((el, i) => {
+          const im = new Image();
+          im.onload = () => {
+            const t = makeTex();
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            try {
+              gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, im);
+            } catch (e) { console.warn('hero texture failed', e); return; }
+            imgs[i] = { tex: t, w: im.naturalWidth, h: im.naturalHeight };
+            if (i === current && !ready) {
+              ready = true; from = to = imgs[i]; progress = 1;
+              resize(); draw(); hero.classList.add('gl-ready');
+            } else if (i === current && ready && to !== imgs[i]) {
+              go(i);
+            }
+          };
+          im.src = el.currentSrc || el.src;
+        });
+
+        window.addEventListener('resize', resize);
+        return { go, isReady: () => ready };
+      })();
+
+      // ---------- shared controls ----------
+      function show(i) {
+        if (i === current) return;
+        current = i;
+        items.forEach((t, n) => t.classList.toggle('active', n === i));
+        // fallback crossfade stays in sync underneath the canvas
+        slides.forEach((s, n) => s.classList.toggle('active', n === i));
+        if (fx && fx.isReady()) fx.go(i);
+      }
+      function runBar() {
+        bar.classList.remove('run');
+        void bar.offsetWidth;
+        bar.style.animationDuration = INTERVAL + 'ms';
+        bar.classList.add('run');
+      }
+      function start() {
+        if (reduceMotion) return;
+        stop();
+        runBar();
+        timer = setInterval(() => {
+          if (!paused) { show((current + 1) % slides.length); runBar(); }
+        }, INTERVAL);
+      }
+      function stop() { clearInterval(timer); timer = null; }
+
+      items.forEach(item => {
+        const i = parseInt(item.dataset.index, 10);
+        item.addEventListener('mouseenter', () => show(i));
+        item.addEventListener('focus', () => show(i));
+        item.addEventListener('click', () => openModal(item.dataset.vimeo, item.dataset.client));
+      });
+      list.addEventListener('mouseenter', () => { paused = true; bar.classList.remove('run'); });
+      list.addEventListener('mouseleave', () => { paused = false; start(); });
+
+      start();
+    })();
 
     // Reel opens in the modal
     function openReel() {
