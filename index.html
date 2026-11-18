@@ -301,6 +301,17 @@
       text-transform: uppercase;
     }
 
+    .section-title { display: flex; flex-direction: column; gap: 12px; }
+    .section-note {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      line-height: 1.6;
+      text-transform: uppercase;
+      color: var(--paper-dim);
+      max-width: 68ch;
+    }
+
     /* ══ FILTERS ══ */
     .filter-tabs { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
     .filter-tabs button {
@@ -866,7 +877,10 @@
     </section>
 
     <div class="section-head">
-      <span class="section-label">Selected Work</span>
+      <div class="section-title">
+        <span class="section-label">Selected Work</span>
+        <p class="section-note">Everything here was made for under $100K. Most for $50K or less, in four to six weeks from concept to delivery, cut downs and modular assets included.</p>
+      </div>
       <ul class="filter-tabs">
         <li><button class="active" data-filter="all">All</button></li>
         <li><button data-filter="sport">Sports</button></li>
@@ -1331,6 +1345,12 @@
         </p>
         <p class="about-bio">
           A quixotic devotion to Shakespeare belies my days spent in the exciting short-form worlds of Los Angeles-based studio work, branded content and modular assets.
+        </p>
+        <p class="about-bio">
+          A confession: I like a big budget as much as anyone, and I&rsquo;ve spent my share of them on full crews, long post schedules, the works. The work on this site tells a different story. Every piece here came in under $100K, most around $50K, with cut downs and modular assets included.
+        </p>
+        <p class="about-bio">
+          Constraints are where the good ideas tend to hide. Bring a real budget and a real audience, and we&rsquo;ll make something people want to watch, and that earns its keep.
         </p>
         <p class="about-bio">
           (Long-form) narrative work coming soon.
